@@ -6,8 +6,14 @@ import java.util.Vector;
 
 public class Problema 
 {
+    private final int ID_VACIA=0;
+    private final int ID_ROBOT=-1;
+    private final int ID_OBJETO_UNO=-2;
+    private final int ID_OBJETO_DOS=-3;
+    private final int ID_SITIO_UNO=-4;
+    private final int ID_SITIO_DOS=-5; 
     private Estado estadoInicial; //Archivo ingresado
-    private int carga, fila, columna;
+    private int carga, filaSitioUno, columnaSitioUno, filaSitioDos, columnaSitioDos;
     
     public Problema(Estado estado)
     {
@@ -28,13 +34,13 @@ public class Problema
         {            
             Matriz referenciada=estadoInicial.getMatriz();
             Matriz nueva=new Matriz();
-            nueva.setCargaDust(carga);
+            nueva.setCargaRobot(carga);
             //--Edwin-- en nuestro caso no solo es un punto, sino uno por cada objeto (dos)
-            nueva.setFilaPuntoReciclaje(fila);
-            nueva.setColumnaPuntoReciclaje(columna);
+            nueva.setCoordenadasSitioUno(filaSitioUno, columnaSitioUno);
+            nueva.setCoordenadasSitioDos(filaSitioDos, columnaSitioDos);
 
             //--Edwin-- Debe tener las mismas dimensiones de la matriz ingresada (estado iniicial)
-            char[][] matrizNueva = new char[10][10];            
+            int[][] matrizNueva = new int[referenciada.getDimension()][referenciada.getDimension()];            
             for (int j=0;j<10;j++)
             {
                 matrizNueva[j] = Arrays.copyOf(referenciada.getMatriz()[j],10);
@@ -45,15 +51,19 @@ public class Problema
             if( estadoPrueba.verificarMovimientoValido(todosLosMovimientosPosibles.elementAt(i)))
             {                
                 Operador operador=todosLosMovimientosPosibles.elementAt(i);
-                estadoPrueba.moverDustCart(operador);
+                estadoPrueba.moverRobot(operador);
                 ParOperadorEstado pareja=new ParOperadorEstado(operador,estadoPrueba);
                 retorno.add(pareja);
                 estadoPrueba=null; 
-                carga += nueva.getDustCart().getCarga();
-                if(nueva.getDeposito().getFila()!=0)
-                    fila = nueva.getDeposito().getFila();
-                if(nueva.getDeposito().getColumna()!=0)
-                    columna = nueva.getDeposito().getColumna();               
+                carga += nueva.getSortingRobot().getCarga();
+                if(nueva.getSitioUno().getFila()!=0)
+                    filaSitioUno = nueva.getSitioUno().getFila();
+                if(nueva.getSitioUno().getColumna()!=0)
+                    columnaSitioUno = nueva.getSitioUno().getColumna();
+                if(nueva.getSitioDos().getFila()!=0)
+                    filaSitioUno = nueva.getSitioDos().getFila();
+                if(nueva.getSitioDos().getColumna()!=0)
+                    columnaSitioUno = nueva.getSitioDos().getColumna();
             }
         }
         return retorno;
@@ -61,13 +71,22 @@ public class Problema
 
     public boolean pruebaMeta(Estado estado)
     {
+         /*
+            0 si es una casilla libre
+            1 si es un obstáculo
+            2 si es la casilla que tiene el depósito de basura de 2 kilos
+            3 si es la casilla que tiene el depósito de basura de 3 kilos
+            4 si es el punto de inicio
+            5 si es el punto de reciclaje     */
         Matriz matriz=estado.getMatriz();
-        int[] posicion2 = matriz.retornarCoordenadaDeObjetos('2');
-        int[] posicion3 = matriz.retornarCoordenadaDeObjetos('3');
-        int[] posicion4 = matriz.retornarCoordenadaDeObjetos('4');
-        int[] posicion5 = matriz.retornarCoordenadaDeObjetos('5');        
-        if((posicion2==null)&&(posicion3==null)&&(posicion5==null)&&
-        (posicion4[0]==fila)&&(posicion4[1]==columna))    
+        int[] posObjetoUno = matriz.retornarCoordenadaDeObjetos(ID_OBJETO_UNO);
+        int[] posObjetoDos = matriz.retornarCoordenadaDeObjetos(ID_OBJETO_DOS);
+        //int[] posInicial = matriz.retornarCoordenadaDeObjetos('4');
+        int[] posSitioUno = matriz.retornarCoordenadaDeObjetos(ID_SITIO_UNO);        
+        int[] posSitioDos = matriz.retornarCoordenadaDeObjetos(ID_SITIO_DOS);        
+        if((posObjetoUno==null)&&(posObjetoDos==null)&&(posSitioUno==null)
+                &&(posSitioDos==null)/* Revsar
+                 &&(posInicial[0]==filaSitioUno)&&(posInicial[1]==columnaSitioUno)*/)    
         {
             this.carga=0;
             return true;        
@@ -78,7 +97,7 @@ public class Problema
     public Vector<Operador> generarOperadores()
     {
         Vector<Operador> operaciones=new Vector();      
-        char[] direcciones={'u','l','d','r'};
+        char[] direcciones={'u','d','l','r'}; 
         
             for(int j=0;j<direcciones.length;j++)
             {
@@ -93,13 +112,14 @@ public class Problema
         return carga;
     }     
     
-    public int getFila()
+    /*Revisar
+     public int getFila()
     {
-        return fila;
+        return filaSitioUno;
     }        
     
     public int getColumna()
     {
-        return columna;
-    }
+        return columnaSitioUno;
+    }*/
 }

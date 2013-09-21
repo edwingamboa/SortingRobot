@@ -1,15 +1,5 @@
 package sortingrobot;
 
-/*****************************************************
- * Proyecto 1: UniValle Duscart                      *
- * Integrantes:                                      *
- * 1. Maria Cristina Protilla Cortes - 0844113       *
- * 2. Franco Cundar Zambrano - 1225352               *
- * Asignatura: Inteligencia Artificial               *
- * Docente: Oscar Bedoya Leiva                       *
- * Archivo: Estado.java                              *  
- * **************************************************/
-
 public class Estado
 {
     private Matriz matriz = new Matriz();  
@@ -28,7 +18,7 @@ public class Estado
     public boolean verificarMovimientoValido(Operador operador)
     {  
         char direccion=operador.getDireccion();
-        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getDustCart().getNombre());
+        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getNombre());
          if(coordenada!=null){
             //Izquierda                       
             if(direccion=='l'){       
@@ -60,10 +50,10 @@ public class Estado
        
     }
     
-    public boolean moverDustCart(Operador operador)
+    public boolean moverRobot(Operador operador)
     {         
         char direccion=operador.getDireccion(); 
-        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getDustCart().getNombre());
+        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getNombre());
          if(coordenada!=null){
             //Izquierda                       
             if(direccion=='l'){       
@@ -92,8 +82,8 @@ public class Estado
 
     public boolean equals(Estado otroEstado)
     {
-        char[][] matrizObj1=matriz.getMatriz();
-        char[][] matrizObj2=otroEstado.getMatriz().getMatriz();
+        int[][] matrizObj1=matriz.getMatriz();
+        int[][] matrizObj2=otroEstado.getMatriz().getMatriz();
 
         for(int i=0;i<10;i++)
         {

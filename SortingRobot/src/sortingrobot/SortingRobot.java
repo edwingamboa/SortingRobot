@@ -1,14 +1,5 @@
 package sortingrobot;
 
-/*****************************************************
- * Proyecto 1: UniValle Duscart                      *
- * Integrantes:                                      *
- * 1. Maria Cristina Protilla Cortes - 0844113       *
- * 2. Franco Cundar Zambrano - 1225352               *
- * Asignatura: Inteligencia Artificial               *
- * Docente: Oscar Bedoya Leiva                       *
- * Archivo: DustCart.java                            *  
- * **************************************************/
 
 public class SortingRobot 
 {

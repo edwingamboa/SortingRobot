@@ -1,15 +1,5 @@
 package sortingrobot;
 
-/*****************************************************
- * Proyecto 1: UniValle Duscart                      *
- * Integrantes:                                      *
- * 1. Maria Cristina Protilla Cortes - 0844113       *
- * 2. Franco Cundar Zambrano - 1225352               *
- * Asignatura: Inteligencia Artificial               *
- * Docente: Oscar Bedoya Leiva                       *
- * Archivo: LectorDeArchivo.java                     *  
- * **************************************************/
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,7 +9,7 @@ import java.util.Vector;
 public class LectorDeArchivo
 {
     private File ambiente;  
-    private Vector<String> vectorLineas=new Vector();
+    private Vector<int[]> vectorLineas=new Vector();
 
 
     public LectorDeArchivo(File archivo)
@@ -27,7 +17,7 @@ public class LectorDeArchivo
         this.ambiente=archivo;           
     }
     
-    public Vector<String> leerArchivo()
+    public Vector<int[]> leerArchivo()
     {
         FileReader fr = null;
         BufferedReader br = null;
@@ -36,16 +26,16 @@ public class LectorDeArchivo
             fr = new FileReader (ambiente);
             br = new BufferedReader(fr);
             String linea;
+            String filaStrings[];
+            int filaInt[];
             while((linea=br.readLine())!=null)
             {
-                String fila="";
-                for(int i=0;i<linea.length();i++)
-                {
-                    if(linea.charAt(i)!=' ')
-                       fila+=linea.charAt(i);
+                filaStrings = linea.split(" ");
+                filaInt = new int[filaStrings.length];
+                for(int i=0; i<filaStrings.length; i++){
+                    filaInt[i]= Integer.valueOf(filaStrings[i]);
                 }
-                
-                vectorLineas.add(fila);              
+                vectorLineas.add(filaInt);              
             }
                
         }catch(Exception e){

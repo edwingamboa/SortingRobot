@@ -20,7 +20,7 @@ public class BusquedaAEstrella
     private PriorityQueue<Nodo> nodos=new PriorityQueue<Nodo>(100,new ComparadorBusquedaAEstrella());
     private Problema problema;
     private Vector<Operador> rutaSolucion=new Vector<Operador>();
-    private int costoDustCargado=0, costoTotal=0, costoNodoPadre=0;
+    private int costoRobotCargado=0, costoTotal=0, costoNodoPadre=0;
 
     public BusquedaAEstrella(Problema problema)
     {
@@ -70,24 +70,24 @@ public class BusquedaAEstrella
            ParOperadorEstado hijo=hijos.elementAt(i);
            Nodo nodoHijo;
 
-           int costoDustVacio=1;
-           if(this.costoDustCargado!=0)
+           int costoRobotVacio=1;
+           if(this.costoRobotCargado!=0)
            {
-               costoTotal=nodo.getCostoDeRuta()+costoDustCargado;
+               costoTotal=nodo.getCostoDeRuta()+costoRobotCargado;
                costoNodoPadre=costoTotal-nodo.getCostoDeRuta();
            }
            else
            {
-               costoTotal=nodo.getCostoDeRuta()+costoDustVacio;
+               costoTotal=nodo.getCostoDeRuta()+costoRobotVacio;
                costoNodoPadre=1;
            }
            nodoHijo=new Nodo(hijo.getEstado(),nodo,hijo.getOperador(),(nodo.getProfundidad()+1),costoTotal);
            if((nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('2')==null)&&(nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('3')!=null))
-               this.costoDustCargado=2;
+               this.costoRobotCargado=2;
            if((nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('2')!=null)&&(nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('3')==null))
-               this.costoDustCargado=3;
+               this.costoRobotCargado=3;
            if((nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('2')==null)&&(nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('3')==null))
-               this.costoDustCargado=5;
+               this.costoRobotCargado=5;
            if((estaEnCamino(nodo,nodoHijo)==false)&&((costoTotal-nodo.getCostoDeRuta()==costoNodoPadre)))
            {   
                nodosHijos.add(nodoHijo);

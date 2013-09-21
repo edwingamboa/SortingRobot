@@ -1,15 +1,5 @@
 package sortingrobot;
 
-/*****************************************************
- * Proyecto 1: UniValle Duscart                      *
- * Integrantes:                                      *
- * 1. Maria Cristina Protilla Cortes - 0844113       *
- * 2. Franco Cundar Zambrano - 1225352               *
- * Asignatura: Inteligencia Artificial               *
- * Docente: Oscar Bedoya Leiva                       *
- * Archivo: BusquedaPreferentePorAmplitud.java       *
- * **************************************************/
-
 import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -21,7 +11,7 @@ public class BusquedaPreferentePorAmplitud
     private Queue<Nodo> nodos = new LinkedBlockingQueue<Nodo>();
     private Problema problema;
     private Vector<Operador> rutaSolucion=new Vector<Operador>();
-    private int costoDustCargado=0, costoTotal=0, costoNodoPadre=0;
+    private int costoRobotCargado=0, costoTotal=0, costoNodoPadre=0;
     
 
     public BusquedaPreferentePorAmplitud(Problema problema)
@@ -71,29 +61,28 @@ public class BusquedaPreferentePorAmplitud
            ParOperadorEstado hijo=hijos.elementAt(i);
            Nodo nodoHijo;
           
-           int costoDustVacio=1;
-           if(this.costoDustCargado!=0)
+           int costoRobotVacio=1;
+           if(this.costoRobotCargado!=0)
            {
-               costoTotal=nodo.getCostoDeRuta()+costoDustCargado;
+               costoTotal=nodo.getCostoDeRuta()+costoRobotCargado;
                costoNodoPadre=costoTotal-nodo.getCostoDeRuta();
            }
            else
            {
-               costoTotal=nodo.getCostoDeRuta()+costoDustVacio;
+               costoTotal=nodo.getCostoDeRuta()+costoRobotVacio;
                costoNodoPadre=1;
            }
            nodoHijo=new Nodo(hijo.getEstado(),nodo,hijo.getOperador(),(nodo.getProfundidad()+1),costoTotal);
            if((nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('2')==null)&&(nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('3')!=null))
-               this.costoDustCargado=2;
+               this.costoRobotCargado=2;
            if((nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('2')!=null)&&(nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('3')==null))
-               this.costoDustCargado=3;
+               this.costoRobotCargado=3;
            if((nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('2')==null)&&(nodoHijo.getEstado().getMatriz().retornarCoordenadaDeObjetos('3')==null))
-               this.costoDustCargado=5;
+               this.costoRobotCargado=5;
            if((estaEnCamino(nodo,nodoHijo)==false)&&((costoTotal-nodo.getCostoDeRuta()==costoNodoPadre)))
            {   
                nodosHijos.add(nodoHijo);
            }
-           nodoHijo.imprimirNodo();
        }
        return nodosHijos;   
     }

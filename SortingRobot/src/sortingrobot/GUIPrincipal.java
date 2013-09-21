@@ -1,30 +1,15 @@
 package sortingrobot;
 
-/*****************************************************
- * Proyecto 1: UniValle Duscart                      *
- * Integrantes:                                      *
- * 1. Maria Cristina Protilla Cortes - 0844113       *
- * 2. Franco Cundar Zambrano - 1225352               *
- * Asignatura: Inteligencia Artificial               *
- * Docente: Oscar Bedoya Leiva                       *
- * Archivo: GUIUnivalle.java                         *  
- * **************************************************/
-
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+
 
 public class GUIPrincipal extends javax.swing.JFrame {
 
@@ -34,7 +19,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private Estado estado;
     private Problema problema;
     private long tiempoInicio,tiempoTotal;
-    private Vector<ParOperadorEstado> parejas;   
+    private Vector<ParOperadorEstado> parejas; 
+    private final int ID_VACIA=0;
+    private final int ID_ROBOT=-1;
+    private final int ID_OBJETO_UNO=-2;
+    private final int ID_OBJETO_DOS=-3;
+    private final int ID_SITIO_UNO=-4;
+    private final int ID_SITIO_DOS=-5; 
     //GUI
     private JLabel arregloDeEtiquetas[][]=new JLabel[10][10];
     private Icon arregloDeImagenes[]=new ImageIcon[6];
@@ -165,7 +156,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     //Se asignna a cada etiqueta la imagen a mostrar en pantalla.
     private void cargarEstadoEnPantalla(Matriz matriz)
     {
-        char[][] obj = matriz.getMatriz();
+        int[][] obj = matriz.getMatriz();
         for(int i=0;i<10;i++)
         {
             for(int j=0;j<10;j++)
@@ -181,10 +172,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         Matriz referenciada=estado.getMatriz();
         Matriz nueva=new Matriz();
 
-        char[][] matrizNueva = new char[10][10];
+        int[][] matrizNueva = new int[referenciada.getDimension()][referenciada.getDimension()];
         for (int j=0;j<10;j++)
         {
-            matrizNueva[j] = Arrays.copyOf(referenciada.getMatriz()[j],10);
+            matrizNueva[j] = Arrays.copyOf(referenciada.getMatriz()[j],referenciada.getDimension());
         }
         nueva.setMatriz(matrizNueva);
         retorno=new Estado(nueva);
@@ -199,7 +190,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         
         for(int i=0;i<sol.size();i++)
         {
-            copia.moverDustCart(sol.elementAt(i));            
+            copia.moverRobot(sol.elementAt(i));            
             Estado copia2=sacarEstadoCopia(copia);
             ParOperadorEstado pareja=new ParOperadorEstado(sol.elementAt(i),copia2);
             parejas.add(pareja);
@@ -218,26 +209,26 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
         
     //Le asigna a cada posicion la imagen que le corresponda.
-    private Icon retornarImagenDeCasillas(char posicion)
+    private Icon retornarImagenDeCasillas(int posicion)
     {
         Icon retorno=null;
 
-        if(posicion=='0')
+        if(posicion==ID_VACIA)
             return arregloDeImagenes[0];
 
-        if(posicion=='1')
+        if(posicion==ID_ROBOT)
             return arregloDeImagenes[1];
 
-        if(posicion=='2')
+        if(posicion==ID_OBJETO_UNO)
             return arregloDeImagenes[2];
 
-        if(posicion=='3')
+        if(posicion==ID_OBJETO_DOS)
             return arregloDeImagenes[3];
 
-        if(posicion=='4')
+        if(posicion==ID_SITIO_UNO)
             return arregloDeImagenes[4];
 
-        if(posicion=='5')
+        if(posicion==ID_SITIO_DOS)
             return arregloDeImagenes[5];
         return retorno;
     }
