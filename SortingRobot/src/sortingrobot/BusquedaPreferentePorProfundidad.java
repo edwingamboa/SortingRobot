@@ -36,6 +36,7 @@ public class BusquedaPreferentePorProfundidad
                  construirSolucion(nodo);
                  profundidadDelArbol=nodo.getProfundidad();
                  imprimirVectorSolucion();
+                 nodo.imprimirNodo();
                  return rutaSolucion;
              }
              Vector<Nodo> nodosHijos=expandirNodo(nodo);

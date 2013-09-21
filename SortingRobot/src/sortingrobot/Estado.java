@@ -13,36 +13,39 @@ public class Estado
     {
         return this.matriz;
     }
-    
-    //--Edwin-- Se hace uso de la función verificarSiEstaLibre(es de la clase Matriz), esta debe ser revisada para que se adpate a lo nuestro
+
     public boolean verificarMovimientoValido(Operador operador)
     {  
         char direccion=operador.getDireccion();
-        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getNombre());
+        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getId());
          if(coordenada!=null){
             //Izquierda                       
             if(direccion=='l'){       
-               if(matriz.verificarSiEstaLibre(coordenada[0],coordenada[1]-1)==false)
-                    return false;      
+               if(matriz.estaDentroDeMatriz(coordenada[0],coordenada[1]-1)==false){
+                   return false;
+               }      
                 return true; 
             }
             //Derecha
             if(direccion=='r'){
-                if(matriz.verificarSiEstaLibre(coordenada[0],coordenada[1]+1)==false)
+                if(matriz.estaDentroDeMatriz(coordenada[0],coordenada[1]+1)==false){
                     return false;
+                }
                 return true;
             } 
 
            //Arriba
            if(direccion=='u'){
-               if(matriz.verificarSiEstaLibre(coordenada[0]-1,coordenada[1])==false)
+               if(matriz.estaDentroDeMatriz(coordenada[0]-1,coordenada[1])==false){
                    return false;
+               }
                return true;
            }
            //Abajo
            if(direccion=='d'){
-               if(matriz.verificarSiEstaLibre(coordenada[0]+1,coordenada[1])==false)
+               if(matriz.estaDentroDeMatriz(coordenada[0]+1,coordenada[1])==false){
                    return false;
+               }
                return true; 
            }
          }
@@ -53,7 +56,7 @@ public class Estado
     public boolean moverRobot(Operador operador)
     {         
         char direccion=operador.getDireccion(); 
-        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getNombre());
+        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getId());
          if(coordenada!=null){
             //Izquierda                       
             if(direccion=='l'){       
@@ -85,9 +88,9 @@ public class Estado
         int[][] matrizObj1=matriz.getMatriz();
         int[][] matrizObj2=otroEstado.getMatriz().getMatriz();
 
-        for(int i=0;i<10;i++)
+        for(int i=0;i<matriz.getDimension();i++)
         {
-            for(int j=0;j<10;j++)
+            for(int j=0;j<matriz.getDimension();j++)
             {
                 if(matrizObj1[i][j]!=matrizObj2[i][j])
                     return false;
@@ -96,8 +99,7 @@ public class Estado
         return true; 
     }  
 
-    public void imprimirEstado()
-    {
+    public void imprimirEstado(){
         matriz.imprimirMatriz();
     } 
 }

@@ -1,16 +1,5 @@
 package sortingrobot;
 
-/*****************************************************
- * Proyecto 1: UniValle Duscart                      *
- * Integrantes:                                      *
- * 1. Maria Cristina Protilla Cortes - 0844113       *
- * 2. Franco Cundar Zambrano - 1225352               *
- * Asignatura: Inteligencia Artificial               *
- * Docente: Oscar Bedoya Leiva                       *
- * Archivo: Nodo.java                                *  
- * **************************************************/
-
-//--Edwin-- Esta clase creo que no se debe modificar
 public class Nodo 
 {
     private Estado estado;
@@ -88,7 +77,7 @@ public class Nodo
     {
         if(operador!=null)
             operador.imprimirOperador();
-        estado.imprimirEstado();        
+        //estado.imprimirEstado();        
         System.out.println("profundidad: "+profundidad+" costoDeRuta: "+costoDeRuta);
     } 
 

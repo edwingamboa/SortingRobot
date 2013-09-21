@@ -157,9 +157,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void cargarEstadoEnPantalla(Matriz matriz)
     {
         int[][] obj = matriz.getMatriz();
-        for(int i=0;i<10;i++)
+        for(int i=0;i<matriz.getDimension();i++)
         {
-            for(int j=0;j<10;j++)
+            for(int j=0;j<matriz.getDimension();j++)
             {
                 arregloDeEtiquetas[i][j].setIcon(retornarImagenDeCasillas(obj[i][j]));
             }
@@ -173,7 +173,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         Matriz nueva=new Matriz();
 
         int[][] matrizNueva = new int[referenciada.getDimension()][referenciada.getDimension()];
-        for (int j=0;j<10;j++)
+        for (int j=0;j<nueva.getDimension();j++)
         {
             matrizNueva[j] = Arrays.copyOf(referenciada.getMatriz()[j],referenciada.getDimension());
         }

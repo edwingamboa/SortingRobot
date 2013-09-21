@@ -4,12 +4,12 @@ package sortingrobot;
 public class SortingRobot 
 {
     private int carga;
-    private char nombre;
+    private int id;
     private int valorDeposito;
     
     public SortingRobot()
     {
-        this.nombre='4';
+        this.id=-1;
     }
      
     public void setCarga(int nuevaCarga)
@@ -27,9 +27,9 @@ public class SortingRobot
         return this.valorDeposito;
     }        
     
-    public char getNombre()
+    public int getId()
     {
-        return this.nombre;        
+        return this.id;        
     }
     
     public void montarCarga(int valorDeposito)

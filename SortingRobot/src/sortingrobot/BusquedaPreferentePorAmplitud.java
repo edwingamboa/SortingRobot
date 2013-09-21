@@ -14,13 +14,11 @@ public class BusquedaPreferentePorAmplitud
     private int costoRobotCargado=0, costoTotal=0, costoNodoPadre=0;
     
 
-    public BusquedaPreferentePorAmplitud(Problema problema)
-    {
-        this.problema=problema;
+    public BusquedaPreferentePorAmplitud(Problema _problema){
+        this.problema=_problema;
     }
     
-    public Vector<Operador> aplicarAlgoritmo()
-    {
+    public Vector<Operador> aplicarAlgoritmo(){
         Nodo nodo;
         nodos.add(hacerNodoRaiz(problema.getEstadoInicial()));
         while(true)
@@ -32,17 +30,17 @@ public class BusquedaPreferentePorAmplitud
                  return rutaSolucion=null;
              }
              nodo=nodos.poll();
-             if(problema.pruebaMeta(nodo.getEstado()))
-             {
+             if(problema.pruebaMeta(nodo.getEstado())){
                  System.out.println("He encontrado una solucion");
                  construirSolucion(nodo);
                  profundidadDelArbol=nodo.getProfundidad();
                  imprimirVectorSolucion();
                  return rutaSolucion;
              }             
-             Vector<Nodo> nodosHijos = expandirNodo(nodo);             
-             for(int i=0;i<nodosHijos.size();i++)
-                 nodos.add(nodosHijos.elementAt(i));             
+             Vector<Nodo> nodosHijos = expandirNodo(nodo);
+             for(int i=0;i<nodosHijos.size();i++){
+                 nodos.add(nodosHijos.elementAt(i));
+             }             
         }        
     } 
 
@@ -52,12 +50,10 @@ public class BusquedaPreferentePorAmplitud
         return retorno;
     } 
 
-    public Vector<Nodo> expandirNodo(Nodo nodo)
-    {
+    public Vector<Nodo> expandirNodo(Nodo nodo){
        Vector<ParOperadorEstado> hijos=problema.funcionSucesor(nodo.getEstado());       
        Vector<Nodo> nodosHijos=new Vector();
-       for(int i=0;i<hijos.size();i++)
-       {
+       for(int i=0;i<hijos.size();i++){
            ParOperadorEstado hijo=hijos.elementAt(i);
            Nodo nodoHijo;
           

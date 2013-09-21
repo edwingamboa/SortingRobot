@@ -27,7 +27,7 @@ public class Matriz
     public Matriz(Vector<int[]> filas){
         this.dimension = filas.elementAt(0)[0];
         this.pesoObjetoUno = filas.elementAt(0)[1];
-        this.pesoObjetoDos = filas.elementAt(0)[1];
+        this.pesoObjetoDos = filas.elementAt(0)[2];
         matriz = new int[dimension][dimension];
         this.vectorFila=filas;
         construirMatriz();        
@@ -94,27 +94,12 @@ public class Matriz
   
     public void construirMatriz()
     {
-       for(int fila=1;fila<dimension;fila++){
+       for(int fila=1;fila<vectorFila.size();fila++){
            for(int columna=0;columna<dimension;columna++)
-               matriz[fila][columna]=vectorFila.elementAt(fila)[columna];
+               matriz[fila-1][columna]=vectorFila.elementAt(fila)[columna];
        }
+       //imprimirMatriz();
     } 
-
-    
-    public boolean verificarSiEstaLibre(int fila,int columna)
-    {
-        try{
-            if(estaDentroDeMatriz(fila, columna)){
-                if(esObjetoUno(fila, columna)
-                        || esObjetoDos(fila, columna)
-                        || esSitioUno(fila, columna)
-                        || esSitioDos(fila, columna))
-                    return true;                
-            }
-        }catch(ArrayIndexOutOfBoundsException e)
-        {} 
-        return false;
-    }
 
     public boolean estaDentroDeMatriz(int fila,int columna){        
          if(((fila>=0) && (fila<dimension))
@@ -122,6 +107,12 @@ public class Matriz
            return true;
         return false;
     }
+    
+    public boolean esPenalizacion(int fila,int columna){        
+         if(matriz[fila][columna]>=1)
+           return true;
+        return false;
+    } 
     
     public boolean esCeldaVacia(int fila,int columna){        
          if(matriz[fila][columna]==ID_VACIA)
@@ -159,12 +150,12 @@ public class Matriz
         {
             if(((1<=columna)&&(dimension>columna)))
             {
-                if((direccion=='l') && (verificarSiEstaLibre(fila,columna-1)))
+                if((direccion=='l') && (estaDentroDeMatriz(fila,columna-1)))
                     return true;                
             }
             if(((0<=columna)&&(dimension-2>columna)))
             {
-                 if((direccion=='r') && (verificarSiEstaLibre(fila,columna+1)))
+                 if((direccion=='r') && (estaDentroDeMatriz(fila,columna+1)))
                      return true;        
             }
         } 
@@ -172,65 +163,19 @@ public class Matriz
         if((0<=columna)&&(dimension>columna))
         {
             if(((1<=fila)&&(dimension>fila))){
-                 if((direccion=='u') && (verificarSiEstaLibre(fila-1,columna)))
+                 if((direccion=='u') && (estaDentroDeMatriz(fila-1,columna)))
                      return true;
             }
             if(((0<=fila)&&(dimension-2>fila))){
-                 if((direccion=='d') && (verificarSiEstaLibre(fila+1,columna)))
+                 if((direccion=='d') && (estaDentroDeMatriz(fila+1,columna)))
                      return true;                 
             }
         }
         return false;
     }
 
-   public boolean moverAIzquierda(int fila,int columna){
-       if(esObjetoUno(fila,columna-1)){                         
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna, ID_VACIA);
-             this.robot.montarCarga(pesoObjetoUno);                         
-             actualizarCasilla(fila,columna-1,valorACorrer);
-             if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
-                 actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-             return true;
-         }                     
-
-         if(esObjetoDos(fila,columna-1)){
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna,ID_VACIA);
-             this.robot.montarCarga(pesoObjetoDos);
-             actualizarCasilla(fila,columna-1,valorACorrer);    
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-                 actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-             return true;
-         }
-
-         if(esSitioUno(fila,columna-1)){
-             this.sitioUno.setCoordenadas(fila,columna-1);
-             int valorACorrer=matriz[fila][columna];                         
-             //En lugar de ID_VACIA habia un 1
-             actualizarCasilla(fila,columna,ID_VACIA); 
-             actualizarCasilla(fila,columna-1,valorACorrer);                         
-             return true;
-         }
-         
-         if(esSitioDos(fila,columna-1)){
-             this.sitioDos.setCoordenadas(fila,columna-1);
-             int valorACorrer=matriz[fila][columna];                         
-             actualizarCasilla(fila,columna,ID_VACIA); 
-             actualizarCasilla(fila,columna-1,valorACorrer);                         
-             return true;
-         }
-
-         int valorACorrer=matriz[fila][columna];
-         actualizarCasilla(fila,columna,ID_VACIA);
-         actualizarCasilla(fila,columna-1,valorACorrer);
-         if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
-             actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-         else if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-             actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-         return true;
-   }
    
+   /*
    public boolean moverADerecha (int fila,int columna){
          if(esObjetoUno(fila,columna+1)){
              int valorACorrer=matriz[fila][columna];
@@ -277,123 +222,80 @@ public class Matriz
              actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
          return true;
    }
+   */
    
-   public boolean moverArriba(int fila, int columna){
-         if(esObjetoUno(fila-1,columna)){
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna,ID_VACIA);
-             this.robot.montarCarga(pesoObjetoUno);
-             actualizarCasilla(fila-1,columna,valorACorrer);
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
+    public boolean moverDeA(int deFila, int deColumna, int aFila,int aColumna){
+       if(esObjetoUno(aFila, aColumna)){                         
+             int valorACorrer=matriz[deFila][deColumna];
+             actualizarCasilla(deFila,deColumna, ID_VACIA);
+             this.robot.montarCarga(pesoObjetoUno);                         
+             actualizarCasilla(aFila,aColumna,valorACorrer);
+             if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
                  actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-             return true;
-         }          
-
-         if(esObjetoDos(fila-1,columna)){
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna, ID_VACIA);
-             this.robot.montarCarga(pesoObjetoDos);
-             actualizarCasilla(fila-1,columna,valorACorrer);
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-                 actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
              return true;
          }                     
 
-         if(esSitioUno(fila-1,columna)){
-            this.sitioUno.setCoordenadas(fila-1,columna);                        
-            int valorACorrer=matriz[fila][columna];                        
-            actualizarCasilla(fila,columna,ID_VACIA);
-            actualizarCasilla(fila-1,columna,valorACorrer);
-            return true;
+         if(esObjetoDos(aFila, aColumna)){
+             int valorACorrer=matriz[deFila][deColumna];
+             actualizarCasilla(deFila,deColumna,ID_VACIA);
+             this.robot.montarCarga(pesoObjetoDos);
+             actualizarCasilla(aFila, aColumna,valorACorrer);    
+             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
+                 actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
+             return true;
+         }
+
+         if(esSitioUno(aFila,aColumna)){
+             this.sitioUno.setCoordenadas(aFila, aColumna);
+             int valorACorrer=matriz[deFila][deColumna];                         
+             //En lugar de ID_VACIA habia un 1
+             actualizarCasilla(deFila,deColumna,ID_VACIA); 
+             actualizarCasilla(aFila,aColumna,valorACorrer);                         
+             return true;
          }
          
-         if(esSitioDos(fila-1,columna)){
-            this.sitioDos.setCoordenadas(fila-1,columna);                        
-            int valorACorrer=matriz[fila][columna];                        
-            actualizarCasilla(fila,columna,ID_VACIA);
-            actualizarCasilla(fila-1,columna,valorACorrer);
-            return true;
+         if(esSitioDos(aFila,aColumna)){
+             this.sitioDos.setCoordenadas(aFila, aColumna);
+             int valorACorrer=matriz[deFila][deColumna];                         
+             actualizarCasilla(deFila,deColumna,ID_VACIA); 
+             actualizarCasilla(aFila, aColumna,valorACorrer);                         
+             return true;
          }
 
-         int valorACorrer=matriz[fila][columna];
-         actualizarCasilla(fila,columna,ID_VACIA);
-         actualizarCasilla(fila-1,columna,valorACorrer);
+         int valorACorrer=matriz[deFila][deColumna];
+         actualizarCasilla(deFila,deColumna,ID_VACIA);
+         actualizarCasilla(aFila, aColumna,valorACorrer);
          if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
              actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
          else if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
              actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
          return true;
    }
-   
-   public boolean moverAbajo(int fila, int columna){
-         if(esObjetoUno(fila+1,columna)){
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna,ID_VACIA);
-             this.robot.montarCarga(pesoObjetoUno);
-             actualizarCasilla(fila+1,columna,valorACorrer);
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
-                 actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-             return true;
-         }                     
-
-         if(esObjetoDos(fila+1,columna)){
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna,ID_VACIA);                         
-             this.robot.montarCarga(pesoObjetoDos);
-             actualizarCasilla(fila+1,columna,valorACorrer);
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-                 actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-             return true;
-         }                     
-
-         if(esSitioUno(fila+1,columna)){
-             this.sitioUno.setCoordenadas(fila+1,columna);                         
-             int valorACorrer=matriz[fila][columna];                         
-             actualizarCasilla(fila,columna,ID_VACIA);
-             actualizarCasilla(fila+1,columna,valorACorrer);
-             return true;
-         }
-         if(esSitioDos(fila+1,columna)){
-             this.sitioDos.setCoordenadas(fila+1,columna);                         
-             int valorACorrer=matriz[fila][columna];                         
-             actualizarCasilla(fila,columna,ID_VACIA);
-             actualizarCasilla(fila+1,columna,valorACorrer);
-             return true;
-         }
-         int valorACorrer=matriz[fila][columna];
-         actualizarCasilla(fila,columna, ID_VACIA);
-         actualizarCasilla(fila+1,columna,valorACorrer);
-         if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
-             actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-         else if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-             actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-         return true;
-   }
-   
+    
     public boolean moverFicha(int fila,int columna,char direccion){ 
         //Si es movimiento horizontal
         if((columna>=0)&&(columna<dimension)){ 
             if((columna>=0)&&(columna<dimension)){
-                 if((direccion=='l') && (verificarSiEstaLibre(fila,columna-1))){
-                     moverAIzquierda(fila, columna);
+                 if((direccion=='l') && (estaDentroDeMatriz(fila,columna-1))){
+                     return moverDeA(fila, columna, fila,columna-1);
                  }
             }
             if((columna>=0)&&(columna<dimension)){
-                 if((direccion=='r') && (verificarSiEstaLibre(fila,columna+1))){
-                     moverADerecha(fila, columna);                    
+                 if((direccion=='r') && (estaDentroDeMatriz(fila,columna+1))){
+                     return moverDeA(fila, columna, fila,columna+1);
                  } 
             }
         }
         //Si es movimiento vertical
         if((fila>=0)&&(fila<dimension)){
             if((fila>=0)&&(fila<dimension)){
-                 if((direccion=='u') && (verificarSiEstaLibre(fila-1,columna))){ 
-                     moverArriba(fila, columna);
+                 if((direccion=='u') && (estaDentroDeMatriz(fila-1,columna))){ 
+                     return moverDeA(fila, columna, fila-1,columna);
                  }
             }
             if((fila>=0)&&(fila<dimension)){
-                 if((direccion=='d') && (verificarSiEstaLibre(fila+1,columna))){
-                     moverAbajo(fila, columna);
+                 if((direccion=='d') && (estaDentroDeMatriz(fila+1,columna))){
+                     return moverDeA(fila, columna, fila+1,columna);
                  }
             }
         } 
