@@ -3,17 +3,9 @@ package sortingrobot;
 import java.util.Vector; 
 import javax.swing.JOptionPane;
 
-public class Matriz
-{
-    private final int ID_VACIA=0;
-    private final int ID_ROBOT=-1;
-    private final int ID_OBJETO_UNO=-2;
-    private final int ID_OBJETO_DOS=-3;
-    private final int ID_SITIO_UNO=-4;
-    private final int ID_SITIO_DOS=-5;   
-    
+public class Matriz implements IdsObjetos{    
     private int[] conjuntoIds={ID_VACIA, ID_ROBOT, ID_OBJETO_UNO, ID_OBJETO_DOS,
-        ID_SITIO_UNO, ID_SITIO_DOS};
+        ID_SITIO_UNO, ID_SITIO_DOS, ID_CELDA_INVALIDA};
     private int dimension;
     private Vector<int[]> vectorFila;
     private int[][] matriz;
@@ -23,17 +15,21 @@ public class Matriz
     private SitioObjeto sitioUno=new SitioObjeto();
     private SitioObjeto sitioDos=new SitioObjeto();
     private int pesoObjetoUno, pesoObjetoDos, carga, pesoTotal;
+    private int[][] matrizPenalizaciones;
 
     public Matriz(Vector<int[]> filas){
         this.dimension = filas.elementAt(0)[0];
         this.pesoObjetoUno = filas.elementAt(0)[1];
         this.pesoObjetoDos = filas.elementAt(0)[2];
+        pesoTotal = pesoObjetoUno + pesoObjetoDos;
         matriz = new int[dimension][dimension];
+        matrizPenalizaciones = new int[dimension][dimension];
         this.vectorFila=filas;
         construirMatriz();        
     }
 
-    public Matriz(){}
+    public Matriz(){
+    }
     
     public int[][] getMatriz()
     {
@@ -45,25 +41,36 @@ public class Matriz
         return dimension;
     }
 
-    public void setDimension(int dimension) {
+    public void setDimension(int dimension){
         this.dimension = dimension;
     }
     
-    public void setMatriz(int[][] nuevaMatriz)
-    {
+    public void setMatriz(int[][] nuevaMatriz){
         this.matriz=nuevaMatriz; 
+    }
+
+    public int[][] getMatrizPenalizaciones() {
+        return matrizPenalizaciones;
+    }
+
+    public void setMatrizPenalizaciones(int[][] _matrizPenalizaciones){
+        this.matrizPenalizaciones = _matrizPenalizaciones;
     }
     
     public void setCargaRobot(int carga){
-        this.carga = carga;
+        robot.setCarga(carga);
     }        
     
     public int getCargaRobot(){
-        return carga;
+        return robot.getCarga();
     }        
     
     public SortingRobot getSortingRobot(){
         return this.robot;
+    }
+    
+    public void setSortingRobot(SortingRobot _robot){
+        this.robot = _robot;
     }
     
     public SitioObjeto getSitioUno(){
@@ -73,7 +80,27 @@ public class Matriz
     public SitioObjeto getSitioDos(){
         return this.sitioUno;
     }
+
+    public void setPesoObjetoUno(int pesoObjetoUno) {
+        this.pesoObjetoUno = pesoObjetoUno;
+    }
+
+    public void setPesoObjetoDos(int pesoObjetoDos) {
+        this.pesoObjetoDos = pesoObjetoDos;
+    }
     
+    public int getPesoObjetoUno() {
+        return pesoObjetoUno;
+    }
+
+    public int getPesoObjetoDos() {
+        return pesoObjetoDos;
+    }
+
+    public int getPesoTotal() {
+        return pesoTotal;
+    }
+        
     public void setCoordenadasSitioUno(int fila, int columna){
         this.sitioUno.setCoordenadas(fila, columna);
     }
@@ -81,11 +108,6 @@ public class Matriz
     public void setCoordenadasSitioDos(int fila, int columna){
         this.sitioDos.setCoordenadas(fila, columna);
     }
-    
-    public int getCargaSortingRobot()
-    {
-        return this.robot.getCarga();
-    } 
     
     public int getDepositoSortingRobot()
     {
@@ -95,8 +117,13 @@ public class Matriz
     public void construirMatriz()
     {
        for(int fila=1;fila<vectorFila.size();fila++){
-           for(int columna=0;columna<dimension;columna++)
+           for(int columna=0;columna<dimension;columna++){
                matriz[fila-1][columna]=vectorFila.elementAt(fila)[columna];
+               if(vectorFila.elementAt(fila)[columna] < 0)
+                   matrizPenalizaciones[fila-1][columna]=ID_VACIA;
+               else 
+                   matrizPenalizaciones[fila-1][columna]=vectorFila.elementAt(fila)[columna];
+           }
        }
        //imprimirMatriz();
     } 
@@ -173,106 +200,88 @@ public class Matriz
         }
         return false;
     }
-
    
-   /*
-   public boolean moverADerecha (int fila,int columna){
-         if(esObjetoUno(fila,columna+1)){
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna, ID_VACIA);
-             this.robot.montarCarga(pesoObjetoUno);
-             actualizarCasilla(fila,columna+1,valorACorrer);
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
-                 actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-             return true;
-         }                     
-
-         if(esObjetoDos(fila,columna+1)){
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna, ID_VACIA);
-             this.robot.montarCarga(pesoObjetoDos);
-             actualizarCasilla(fila,columna+1,valorACorrer);
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-                 actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-             return true;
-         }
-
-         if(esSitioUno(fila,columna+1)){ 
-             this.sitioUno.setCoordenadas(fila,columna+1);
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna, ID_VACIA); 
-             actualizarCasilla(fila,columna+1,valorACorrer);
-             return true;
-         }
-
-         if(esSitioDos(fila,columna+1)){ 
-             this.sitioDos.setCoordenadas(fila,columna+1);
-             int valorACorrer=matriz[fila][columna];
-             actualizarCasilla(fila,columna, ID_VACIA); 
-             actualizarCasilla(fila,columna+1, valorACorrer);
-             return true;
-         }
-
-         int valorACorrer=matriz[fila][columna];
-         actualizarCasilla(fila,columna,ID_VACIA);
-         actualizarCasilla(fila,columna+1,valorACorrer);
-         if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
-             actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-         else if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-             actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-         return true;
-   }
-   */
-   
-    public boolean moverDeA(int deFila, int deColumna, int aFila,int aColumna){
-       if(esObjetoUno(aFila, aColumna)){                         
-             int valorACorrer=matriz[deFila][deColumna];
+    /**
+     * Permite mover un objeto de una celda origen a otra destino.
+     * @param deFila Fila de la celda origen
+     * @param deColumna Cluman de la celda origen 
+     * @param aFila Fila de la celda destino
+     * @param aColumna Columna de la celda destino
+     * @return el valor de la celda destino, antes de ser movido el objeto.
+     */
+    public int moverDeA(int deFila, int deColumna, int aFila,int aColumna){
+        if(esObjetoUno(aFila, aColumna)){
              actualizarCasilla(deFila,deColumna, ID_VACIA);
-             this.robot.montarCarga(pesoObjetoUno);                         
-             actualizarCasilla(aFila,aColumna,valorACorrer);
-             if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
+             actualizarCasilla(aFila,aColumna, ID_ROBOT);
+             if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDe(ID_SITIO_UNO)==null))
                  actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-             return true;
+             return calcularCostoMovimiento(aFila, aColumna);
          }                     
 
          if(esObjetoDos(aFila, aColumna)){
-             int valorACorrer=matriz[deFila][deColumna];
              actualizarCasilla(deFila,deColumna,ID_VACIA);
-             this.robot.montarCarga(pesoObjetoDos);
-             actualizarCasilla(aFila, aColumna,valorACorrer);    
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
+             actualizarCasilla(aFila, aColumna,ID_ROBOT);
+             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDe(ID_SITIO_DOS)==null))
                  actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-             return true;
+             return calcularCostoMovimiento(aFila, aColumna);
          }
 
          if(esSitioUno(aFila,aColumna)){
              this.sitioUno.setCoordenadas(aFila, aColumna);
-             int valorACorrer=matriz[deFila][deColumna];                         
-             //En lugar de ID_VACIA habia un 1
-             actualizarCasilla(deFila,deColumna,ID_VACIA); 
-             actualizarCasilla(aFila,aColumna,valorACorrer);                         
-             return true;
+             actualizarCasilla(deFila,deColumna,ID_VACIA);
+             if(retornarCoordenadaDe(ID_OBJETO_UNO)==null)
+                 actualizarCasilla(aFila,aColumna,ID_ROBOT);                         
+             return calcularCostoMovimiento(aFila, aColumna);
          }
          
          if(esSitioDos(aFila,aColumna)){
              this.sitioDos.setCoordenadas(aFila, aColumna);
-             int valorACorrer=matriz[deFila][deColumna];                         
-             actualizarCasilla(deFila,deColumna,ID_VACIA); 
-             actualizarCasilla(aFila, aColumna,valorACorrer);                         
-             return true;
+             actualizarCasilla(deFila,deColumna,ID_VACIA);
+             if(retornarCoordenadaDe(ID_OBJETO_DOS)==null)
+                 actualizarCasilla(aFila, aColumna,ID_ROBOT);                         
+             return calcularCostoMovimiento(aFila, aColumna);
          }
-
          int valorACorrer=matriz[deFila][deColumna];
          actualizarCasilla(deFila,deColumna,ID_VACIA);
          actualizarCasilla(aFila, aColumna,valorACorrer);
-         if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_UNO)==null))
-             actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
-         else if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDeObjetos(ID_SITIO_DOS)==null))
-             actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
-         return true;
+         return calcularCostoMovimiento(aFila, aColumna);
    }
     
-    public boolean moverFicha(int fila,int columna,char direccion){ 
+    public int calcularCostoMovimiento(int aFila,int aColumna){
+       //Verificar si el robot ha cargado algún objeto para sumarlo al costo
+       //Si solo ha cargado el ObjetoUno pero no la ha puesto en su sitio.
+       if((retornarCoordenadaDe(ID_OBJETO_UNO)==null)
+               &&(retornarCoordenadaDe(ID_OBJETO_DOS)!=null)
+               &&(retornarCoordenadaDe(ID_SITIO_UNO)!=null)){
+           return pesoObjetoUno + matrizPenalizaciones[aFila][aColumna] + VALOR_POR_DEFECTO_CASILLAS;
+       }
+       //Si solo ha cargado el ObjetoDos pero no la ha puesto en su sitio.
+       else if((retornarCoordenadaDe(ID_OBJETO_UNO)!=null)
+               &&(retornarCoordenadaDe(ID_OBJETO_DOS)==null)
+               && (retornarCoordenadaDe(ID_SITIO_DOS)!=null)){
+           return pesoObjetoDos + matrizPenalizaciones[aFila][aColumna] + VALOR_POR_DEFECTO_CASILLAS;
+       }
+       //Si ha cargado los dos objetos
+       else if((retornarCoordenadaDe(ID_OBJETO_UNO)==null)
+               &&(retornarCoordenadaDe(ID_OBJETO_DOS)==null)){
+           //Pero ya descargo ObjetoUno
+           if(retornarCoordenadaDe(ID_SITIO_UNO)==null){
+               return pesoObjetoDos + matrizPenalizaciones[aFila][aColumna] + VALOR_POR_DEFECTO_CASILLAS;
+           }
+           //O ya descargo ObjetoDos
+           else if(retornarCoordenadaDe(ID_SITIO_DOS)==null){
+               return pesoObjetoUno + matrizPenalizaciones[aFila][aColumna] + VALOR_POR_DEFECTO_CASILLAS;
+           }
+           //No ha descargado ningun objeto
+           else{
+               return pesoObjetoUno+pesoObjetoDos+ matrizPenalizaciones[aFila][aColumna] + VALOR_POR_DEFECTO_CASILLAS;
+           }
+       }else{
+           return matrizPenalizaciones[aFila][aColumna] + VALOR_POR_DEFECTO_CASILLAS;
+       }
+    }
+    
+    public int moverFicha(int fila,int columna,char direccion){ 
         //Si es movimiento horizontal
         if((columna>=0)&&(columna<dimension)){ 
             if((columna>=0)&&(columna<dimension)){
@@ -300,7 +309,7 @@ public class Matriz
             }
         } 
         JOptionPane.showMessageDialog(null,"Movimiento fuera de Rango");
-        return false;
+        return ID_CELDA_INVALIDA;
     }
 
     public void actualizarCasilla(int fila,int columna,int nuevoValor){
@@ -314,15 +323,12 @@ public class Matriz
      * @param idObjeto Nombre que identifica al objeto.
      * @return 
      */
-    public int[] retornarCoordenadaDeObjetos(int idObjeto)
+    public int[] retornarCoordenadaDe(int idObjeto)
     { 
        int[] posicion=null;
-        for(int i=0;i<dimension;i++)
-        {
-            for(int j=0;j<dimension;j++)
-            {
-               if(matriz[i][j]==idObjeto)
-               {
+        for(int i=0;i<dimension;i++){
+            for(int j=0;j<dimension;j++){
+               if(matriz[i][j]==idObjeto){
                    posicion=new int[2];
                    posicion[0]=i;
                    posicion[1]=j;

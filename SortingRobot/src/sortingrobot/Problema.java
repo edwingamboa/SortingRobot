@@ -4,38 +4,34 @@ package sortingrobot;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class Problema 
-{
-    private final int ID_VACIA=0;
-    private final int ID_ROBOT=-1;
-    private final int ID_OBJETO_UNO=-2;
-    private final int ID_OBJETO_DOS=-3;
-    private final int ID_SITIO_UNO=-4;
-    private final int ID_SITIO_DOS=-5; 
+public class Problema implements IdsObjetos{ 
     private Estado estadoInicial; //Archivo ingresado
-    private int carga, filaSitioUno, columnaSitioUno, filaSitioDos, columnaSitioDos;
+    private int carga, filaSitioUno, columnaSitioUno, filaSitioDos, columnaSitioDos,
+            pesoObjetoUno, pesoObjetoDos;
     
-    public Problema(Estado estado)
-    {
+    public Problema(Estado estado){
         this.estadoInicial=estado;
+        pesoObjetoUno = estadoInicial.getMatriz().getPesoObjetoUno();
+        pesoObjetoDos = estadoInicial.getMatriz().getPesoObjetoDos();
     }
 
-    public Estado getEstadoInicial()
-    {
+    public Estado getEstadoInicial(){
         return this.estadoInicial;
     }
 
-    public Vector<ParOperadorEstado> funcionSucesor(Estado estadoInicial)
-    { 
+    public Vector<ParOperadorEstado> funcionSucesor(Estado estadoInicial){ 
         Vector<ParOperadorEstado> retorno=new Vector();
         Vector<Operador> todosLosMovimientosPosibles=generarOperadores();
         
         for(int i=0;i<todosLosMovimientosPosibles.size();i++){
             Matriz referenciada=estadoInicial.getMatriz();
             Matriz nueva=new Matriz();
-            nueva.setCargaRobot(carga);
+            nueva.setSortingRobot(referenciada.getSortingRobot());
             nueva.setCoordenadasSitioUno(filaSitioUno, columnaSitioUno);
             nueva.setCoordenadasSitioDos(filaSitioDos, columnaSitioDos);
+            nueva.setMatrizPenalizaciones(referenciada.getMatrizPenalizaciones());
+            nueva.setPesoObjetoUno(pesoObjetoUno);
+            nueva.setPesoObjetoDos(pesoObjetoDos);
             
             int dimension=referenciada.getDimension();
             int[][] matrizNueva = new int[dimension][dimension];            
@@ -52,7 +48,7 @@ public class Problema
                 ParOperadorEstado pareja=new ParOperadorEstado(operador,estadoPrueba);
                 retorno.add(pareja);
                 estadoPrueba=null; 
-                carga += nueva.getSortingRobot().getCarga();
+                carga = nueva.getSortingRobot().getCarga();
                 if(nueva.getSitioUno().getFila()!=0)
                     filaSitioUno = nueva.getSitioUno().getFila();
                 if(nueva.getSitioUno().getColumna()!=0)
@@ -68,11 +64,11 @@ public class Problema
 
     public boolean pruebaMeta(Estado estado){
         Matriz matriz=estado.getMatriz();
-        int[] posObjetoUno = matriz.retornarCoordenadaDeObjetos(ID_OBJETO_UNO);
-        int[] posObjetoDos = matriz.retornarCoordenadaDeObjetos(ID_OBJETO_DOS);
-        int[] posRobot = matriz.retornarCoordenadaDeObjetos(ID_ROBOT);
-        int[] posSitioUno = matriz.retornarCoordenadaDeObjetos(ID_SITIO_UNO);        
-        int[] posSitioDos = matriz.retornarCoordenadaDeObjetos(ID_SITIO_DOS);        
+        int[] posObjetoUno = matriz.retornarCoordenadaDe(ID_OBJETO_UNO);
+        int[] posObjetoDos = matriz.retornarCoordenadaDe(ID_OBJETO_DOS);
+        int[] posRobot = matriz.retornarCoordenadaDe(ID_ROBOT);
+        int[] posSitioUno = matriz.retornarCoordenadaDe(ID_SITIO_UNO);        
+        int[] posSitioDos = matriz.retornarCoordenadaDe(ID_SITIO_DOS);        
         if(posObjetoUno==null && posObjetoDos==null && posSitioUno==null && posSitioDos==null
                 &&((posRobot[0]==filaSitioUno && posRobot[1]==columnaSitioUno)
                 || (posRobot[0]==filaSitioDos && posRobot[1]==columnaSitioDos) ))    

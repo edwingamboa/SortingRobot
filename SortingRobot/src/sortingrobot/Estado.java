@@ -1,23 +1,28 @@
 package sortingrobot;
 
-public class Estado
-{
-    private Matriz matriz = new Matriz();  
+public class Estado{
+    private Matriz matriz = new Matriz(); 
+    private int costoMovimiento=0;
 
-    public Estado(Matriz matriz)
-    {
+    public Estado(Matriz matriz){
         this.matriz=matriz;        
     }
 
-    public Matriz getMatriz()
-    {
+    public int getCostoMovimiento() {
+        return costoMovimiento;
+    }
+
+    public void setCostoMovimiento(int costoMovimiento) {
+        this.costoMovimiento = costoMovimiento;
+    }
+
+    public Matriz getMatriz(){
         return this.matriz;
     }
 
-    public boolean verificarMovimientoValido(Operador operador)
-    {  
+    public boolean verificarMovimientoValido(Operador operador){  
         char direccion=operador.getDireccion();
-        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getId());
+        int[] coordenada=matriz.retornarCoordenadaDe(matriz.getSortingRobot().getId());
          if(coordenada!=null){
             //Izquierda                       
             if(direccion=='l'){       
@@ -53,38 +58,35 @@ public class Estado
        
     }
     
-    public boolean moverRobot(Operador operador)
-    {         
+    public boolean moverRobot(Operador operador){         
         char direccion=operador.getDireccion(); 
-        int[] coordenada=matriz.retornarCoordenadaDeObjetos(matriz.getSortingRobot().getId());
+        int[] coordenada=matriz.retornarCoordenadaDe(matriz.getSortingRobot().getId());
          if(coordenada!=null){
             //Izquierda                       
             if(direccion=='l'){       
-               matriz.moverFicha(coordenada[0],coordenada[1], direccion);
+               costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
                return true;
             }
             //Derecha
             if(direccion=='r'){
-                matriz.moverFicha(coordenada[0],coordenada[1], direccion);
+                costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
                 return true;
             } 
-
            //Arriba
            if(direccion=='u'){
-               matriz.moverFicha(coordenada[0],coordenada[1], direccion);
+               costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
                return true;
            }
            //Abajo
            if(direccion=='d'){
-               matriz.moverFicha(coordenada[0],coordenada[1], direccion);
+               costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
                return true;
            }
          }
          return false; 
     }
 
-    public boolean equals(Estado otroEstado)
-    {
+    public boolean equals(Estado otroEstado){
         int[][] matrizObj1=matriz.getMatriz();
         int[][] matrizObj2=otroEstado.getMatriz().getMatriz();
 

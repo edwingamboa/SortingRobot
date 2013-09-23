@@ -20,15 +20,15 @@ public class Heuristica
         Matriz matriz=estado.getMatriz();
         int heuristica = 0, heuristicapr = 0, cargafaltante = 0;        
        
-        int[] posicion4 = matriz.retornarCoordenadaDeObjetos('4');
-        int[] posicion5 = matriz.retornarCoordenadaDeObjetos('5');        
+        int[] posicion4 = matriz.retornarCoordenadaDe('4');
+        int[] posicion5 = matriz.retornarCoordenadaDe('5');        
         
         //Carga que el DusCart no ha recojido
-        if((matriz.retornarCoordenadaDeObjetos('2')==null)&&(matriz.retornarCoordenadaDeObjetos('3')!=null))
+        if((matriz.retornarCoordenadaDe('2')==null)&&(matriz.retornarCoordenadaDe('3')!=null))
             cargafaltante=3;
-        if((matriz.retornarCoordenadaDeObjetos('2')!=null)&&(matriz.retornarCoordenadaDeObjetos('3')==null))
+        if((matriz.retornarCoordenadaDe('2')!=null)&&(matriz.retornarCoordenadaDe('3')==null))
             cargafaltante=2;
-        if((matriz.retornarCoordenadaDeObjetos('2')==null)&&(matriz.retornarCoordenadaDeObjetos('3')==null))
+        if((matriz.retornarCoordenadaDe('2')==null)&&(matriz.retornarCoordenadaDe('3')==null))
             cargafaltante=0;
         
         //Distancia de Manhattan desde el DustCart hasta el Punto de Reciclaje

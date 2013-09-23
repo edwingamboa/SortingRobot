@@ -1663,8 +1663,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         tiempoTotal= System.currentTimeMillis()-tiempoInicio;        
         tiempoTotal= System.currentTimeMillis()-tiempoInicio;
         Vector<Operador> salida=ordenarVectorSalida(res);
-        for(int i=0;i<salida.size();i++)
-        {
+        for(int i=0;i<salida.size();i++){
             operadoresDePareja.add(salida.elementAt(i).toStringOperador());
         }        
         listaSolucion.setListData(operadoresDePareja);
@@ -1734,11 +1733,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
         int[] coordenadas5 = new int[2];
         int[] coordenada5 = new int[2];
         Matriz matriz1;
-        coordenadas5 = matriz.retornarCoordenadaDeObjetos('5');                
+        coordenadas5 = matriz.retornarCoordenadaDe('5');                
         if(seleccionado<(parejas.size()-1))
         {
-            coordenadas4 = parejas.elementAt(seleccionado+1).getEstado().getMatriz().retornarCoordenadaDeObjetos('4');
-            coordenada5 = parejas.elementAt(seleccionado+1).getEstado().getMatriz().retornarCoordenadaDeObjetos('5');
+            coordenadas4 = parejas.elementAt(seleccionado+1).getEstado().getMatriz().retornarCoordenadaDe('4');
+            coordenada5 = parejas.elementAt(seleccionado+1).getEstado().getMatriz().retornarCoordenadaDe('5');
            
             if((coordenadas4[0]==coordenadas5[0])&&(coordenadas4[1]==coordenadas5[1]))
             {

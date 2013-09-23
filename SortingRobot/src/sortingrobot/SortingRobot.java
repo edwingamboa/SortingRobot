@@ -1,47 +1,37 @@
 package sortingrobot;
 
 
-public class SortingRobot 
-{
-    private int carga;
+public class SortingRobot implements IdsObjetos{
+    private int carga=0;
     private int id;
     private int valorDeposito;
     
-    public SortingRobot()
-    {
-        this.id=-1;
+    public SortingRobot(){
+        this.id=ID_ROBOT;
     }
      
-    public void setCarga(int nuevaCarga)
-    {
+    public void setCarga(int nuevaCarga){
         this.carga=nuevaCarga;
     }
     
-    public int getCarga()
-    {
+    public int getCarga(){
         return this.carga;
     }
     
-    public int getValorDeposito()
-    {
+    public int getValorDeposito(){
         return this.valorDeposito;
     }        
     
-    public int getId()
-    {
+    public int getId(){
         return this.id;        
     }
     
-    public void montarCarga(int valorDeposito)
-    {
+    public void montarCarga(int valorDeposito){
         this.carga+=valorDeposito;
         this.valorDeposito = valorDeposito;
     } 
     
-    public int desMontarontarCarga()
-    {
-        int cargaDesmontar=this.carga;
-        this.carga=0;
-        return cargaDesmontar;
+    public void desMontarCarga(int _carga){
+        this.carga-=_carga;
     } 
 }
