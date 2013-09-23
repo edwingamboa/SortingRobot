@@ -8,11 +8,13 @@ public class Problema implements IdsObjetos{
     private Estado estadoInicial; //Archivo ingresado
     private int carga, filaSitioUno, columnaSitioUno, filaSitioDos, columnaSitioDos,
             pesoObjetoUno, pesoObjetoDos;
+    private int[][] matrizPenalizaciones;
     
     public Problema(Estado estado){
         this.estadoInicial=estado;
         pesoObjetoUno = estadoInicial.getMatriz().getPesoObjetoUno();
         pesoObjetoDos = estadoInicial.getMatriz().getPesoObjetoDos();
+        matrizPenalizaciones = estadoInicial.getMatriz().getMatrizPenalizaciones();
     }
 
     public Estado getEstadoInicial(){
@@ -29,7 +31,7 @@ public class Problema implements IdsObjetos{
             nueva.setSortingRobot(referenciada.getSortingRobot());
             nueva.setCoordenadasSitioUno(filaSitioUno, columnaSitioUno);
             nueva.setCoordenadasSitioDos(filaSitioDos, columnaSitioDos);
-            nueva.setMatrizPenalizaciones(referenciada.getMatrizPenalizaciones());
+            nueva.setMatrizPenalizaciones(matrizPenalizaciones);
             nueva.setPesoObjetoUno(pesoObjetoUno);
             nueva.setPesoObjetoDos(pesoObjetoDos);
             
