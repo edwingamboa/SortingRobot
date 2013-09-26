@@ -1,3 +1,18 @@
+/******************************************************************************
+                                Sorting Robot
+                                
+Inteligencia Artificial: Proyecto No 1
+* Jesús Alexander Aranda Bueno
+
+Presentado por:
+* Roger Fernandez       -  201310229
+* Edwin Gamboa          -  201310233
+* Francisco Rojas       -  201310273
+* David Zuluaga         -  201310294
+
+Clase: Sitio del Objeto
+******************************************************************************/
+
 package sortingrobot;
 
 public class SitioObjeto 

@@ -1,7 +1,21 @@
+/******************************************************************************
+                                Sorting Robot
+                                
+Inteligencia Artificial: Proyecto No 1
+* Jesús Alexander Aranda Bueno
+
+Presentado por:
+* Roger Fernandez       -  201310229
+* Edwin Gamboa          -  201310233
+* Francisco Rojas       -  201310273
+* David Zuluaga         -  201310294
+
+* Clase Sorting Robot
+******************************************************************************/
+
 package sortingrobot;
 
-
-public class SortingRobot implements IdsObjetos{
+public class SortingRobot implements IdObjetos{
     private int carga=0;
     private int id;
     private int valorDeposito;

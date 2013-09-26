@@ -1,22 +1,30 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/******************************************************************************
+                                Sorting Robot
+                                
+Inteligencia Artificial: Proyecto No 1
+* Jesús Alexander Aranda Bueno
+
+Presentado por:
+* Roger Fernandez       -  201310229
+* Edwin Gamboa          -  201310233
+* Francisco Rojas       -  201310273
+* David Zuluaga         -  201310294
+
+Clase: Algoritmo
+******************************************************************************/
+
 package sortingrobot;
 
+import sortingrobot.*;
 import java.util.Vector;
 
-/**
- *
- * @author edwin
- */
-public class Algoritmo implements IdsObjetos{
-    int cantidadDeNodosExpandidos=0;
-    int profundidadDelArbol=0;
-    Vector<Operador> rutaSolucion=new Vector<Operador>();
-    Problema problema;
-    int pesoObjetoUno, pesoObjetoDos;
-    int costoRobotCargado=0, costoTotal=0, costoNodoPadre=0;
+public class Algoritmo implements IdObjetos{
+    public int cantidadDeNodosExpandidos=0;
+    public int profundidadDelArbol=0;
+    public Vector<Nodo> rutaSolucion=new Vector<Nodo>();
+    public Problema problema;
+    public int pesoObjetoUno, pesoObjetoDos;
+    public int costoRobotCargado=0, costoTotal=0, costoNodoPadre=0;
    
     public Algoritmo(Problema _problema){
         this.problema = _problema;
@@ -30,10 +38,10 @@ public class Algoritmo implements IdsObjetos{
     }
     
     public Vector<Nodo> expandirNodo(Nodo nodo){
-       Vector<ParOperadorEstado> hijos=problema.funcionSucesor(nodo.getEstado());       
+       Vector<OperadorEstado> hijos=problema.funcionSucesor(nodo.getEstado());       
        Vector<Nodo> nodosHijos=new Vector();
        for(int i=0;i<hijos.size();i++){
-           ParOperadorEstado hijo=hijos.elementAt(i);
+           OperadorEstado hijo=hijos.elementAt(i);
            Nodo nodoHijo;
            
            int costoMovimiento=hijo.getEstado().getCostoMovimiento();
@@ -65,8 +73,8 @@ public class Algoritmo implements IdsObjetos{
     
     public void construirSolucion(Nodo nodo){
         if(!nodo.esNodoRaiz()){            
-            rutaSolucion.add(nodo.getOperador());
-            construirSolucion(nodo.getNodoPadre());
+            rutaSolucion.add(nodo);
+            construirSolucion(nodo);
             /*nodo.imprimirNodo();
             System.out.println("____________________");*/
         }
@@ -77,7 +85,9 @@ public class Algoritmo implements IdsObjetos{
         System.out.println("Esta es la ruta solucion");
         int tamVectorSolucion = rutaSolucion.size();
         for(int i=(tamVectorSolucion-1);i>=0;i--)
-            rutaSolucion.elementAt(i).imprimirOperador();
+            rutaSolucion.elementAt(i).getOperador().imprimirOperador();
+        System.out.println("El costo de la Solución es: " + 
+                rutaSolucion.elementAt(0).getCostoDeRuta());
     }
 
     public int getcantidadDeNodosExpandidos(){

@@ -1,10 +1,26 @@
-package sortingrobot;
+/******************************************************************************
+                                Sorting Robot
+                                
+Inteligencia Artificial: Proyecto No 1
+* Jesús Alexander Aranda Bueno
 
+Presentado por:
+* Roger Fernandez       -  201310229
+* Edwin Gamboa          -  201310233
+* Francisco Rojas       -  201310273
+* David Zuluaga         -  201310294
+
+Clase: Problema
+* Clase encargada del analisis del problema a resolver, con sus sitios, pesos, 
+* etc.
+******************************************************************************/
+
+package sortingrobot;
 
 import java.util.Arrays;
 import java.util.Vector;
 
-public class Problema implements IdsObjetos{ 
+public class Problema implements IdObjetos{ 
     private Estado estadoInicial; //Archivo ingresado
     private int carga, filaSitioUno, columnaSitioUno, filaSitioDos, columnaSitioDos,
             pesoObjetoUno, pesoObjetoDos;
@@ -21,8 +37,8 @@ public class Problema implements IdsObjetos{
         return this.estadoInicial;
     }
 
-    public Vector<ParOperadorEstado> funcionSucesor(Estado estadoInicial){ 
-        Vector<ParOperadorEstado> retorno=new Vector();
+    public Vector<OperadorEstado> funcionSucesor(Estado estadoInicial){ 
+        Vector<OperadorEstado> retorno=new Vector();
         Vector<Operador> todosLosMovimientosPosibles=generarOperadores();
         
         for(int i=0;i<todosLosMovimientosPosibles.size();i++){
@@ -47,7 +63,7 @@ public class Problema implements IdsObjetos{
             if( estadoPrueba.verificarMovimientoValido(todosLosMovimientosPosibles.elementAt(i))){                
                 Operador operador=todosLosMovimientosPosibles.elementAt(i);
                 estadoPrueba.moverRobot(operador);
-                ParOperadorEstado pareja=new ParOperadorEstado(operador,estadoPrueba);
+                OperadorEstado pareja=new OperadorEstado(operador,estadoPrueba);
                 retorno.add(pareja);
                 estadoPrueba=null; 
                 carga = nueva.getSortingRobot().getCarga();

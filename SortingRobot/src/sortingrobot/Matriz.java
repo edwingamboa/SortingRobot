@@ -1,9 +1,24 @@
+/******************************************************************************
+                                Sorting Robot
+                                
+Inteligencia Artificial: Proyecto No 1
+* Jesús Alexander Aranda Bueno
+
+Presentado por:
+* Roger Fernandez       -  201310229
+* Edwin Gamboa          -  201310233
+* Francisco Rojas       -  201310273
+* David Zuluaga         -  201310294
+
+Clase: Matriz
+******************************************************************************/
+
 package sortingrobot;
 
 import java.util.Vector; 
 import javax.swing.JOptionPane;
 
-public class Matriz implements IdsObjetos{    
+public class Matriz implements IdObjetos{    
     private int[] conjuntoIds={ID_VACIA, ID_ROBOT, ID_OBJETO_UNO, ID_OBJETO_DOS,
         ID_SITIO_UNO, ID_SITIO_DOS, ID_CELDA_INVALIDA};
     private int dimension;
