@@ -41,12 +41,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private Problema problema;
     private long tiempoInicio, tiempoTotal;
     private Vector<OperadorEstado> parejas;
-    private final int ID_VACIA = 0;
-    private final int ID_ROBOT = -1;
-    private final int ID_OBJETO_UNO = -2;
-    private final int ID_OBJETO_DOS = -3;
-    private final int ID_SITIO_UNO = -4;
-    private final int ID_SITIO_DOS = -5;
     //GUI
     private JLabel arregloDeEtiquetas[][] = new JLabel[10][10];
     private Icon arregloDeImagenes[] = new ImageIcon[6];
@@ -54,6 +48,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     //Se asignna a cada etiqueta la imagen a mostrar en pantalla.
     private void cargarEstadoEnPantalla(Matriz matriz) {
         int[][] obj = matriz.getMatriz();
+        matriz.imprimirMatriz();
         for (int i = 0; i < matriz.getDimension(); i++) {
             for (int j = 0; j < matriz.getDimension(); j++) {
                 arregloDeEtiquetas[i][j].setIcon(retornarImagenDeCasillas(obj[i][j]));

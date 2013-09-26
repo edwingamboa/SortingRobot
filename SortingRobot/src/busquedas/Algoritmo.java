@@ -76,7 +76,7 @@ public class Algoritmo implements IdObjetos {
     public void construirSolucion(Nodo nodo) {
         if (!nodo.esNodoRaiz()) {
             rutaSolucion.add(nodo);
-            construirSolucion(nodo);
+            construirSolucion(nodo.getNodoPadre());
             /*nodo.imprimirNodo();
              System.out.println("____________________");*/
         }
@@ -89,8 +89,7 @@ public class Algoritmo implements IdObjetos {
         for (int i = (tamVectorSolucion - 1); i >= 0; i--) {
             rutaSolucion.elementAt(i).getOperador().imprimirOperador();
         }
-        System.out.println("El costo de la Solución es: "
-                + rutaSolucion.elementAt(0).getCostoDeRuta());
+        rutaSolucion.elementAt(0).imprimirNodo();
     }
 
     public int getcantidadDeNodosExpandidos() {
