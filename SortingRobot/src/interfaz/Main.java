@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * ****************************************************************************
  * Sorting Robot
@@ -12,40 +11,10 @@
  * principales.
  * ****************************************************************************
  */
-=======
-/******************************************************************************
-                                Sorting Robot
-                                
-Inteligencia Artificial: Proyecto No 1
-* Jesús Alexander Aranda Bueno
-
-Presentado por:
-* Roger Fernandez       -  201310229
-* Edwin Gamboa          -  201310233
-* Francisco Rojas       -  201310273
-* David Zuluaga         -  201310294
-
-Clase: Main
-* Clase principal, donde se almacena la interfaz y acciones principales.
-******************************************************************************/
-
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
 package interfaz;
 
 import java.io.File;
 import java.util.Vector;
-<<<<<<< HEAD
-import sortingrobot.*;
-import busquedas.*;
-import java.awt.*;
-import java.net.URL;
-import java.util.Arrays;
-import javax.swing.*;
-
-public class Main extends javax.swing.JFrame implements IdObjetos {
-
-=======
-import javax.swing.JFrame;
 import sortingrobot.*;
 import busquedas.*;
 import java.awt.Color;
@@ -54,22 +23,13 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.URL;
 import java.util.Arrays;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import static sortingrobot.IdObjetos.ID_SITIO_DOS;
+import javax.swing.*;
 
 public class Main extends javax.swing.JFrame implements IdObjetos {
 
     /**
      * Creates new form Main
      */
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
     private File ambienteArchivo;
     private Archivo archivo;
     private Matriz matriz;
@@ -79,17 +39,16 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private Vector<OperadorEstado> parejas;
     private int _filas; //Numero de filas de la matriz
     private int _columnas; //Numero de columnas de la matriz
-<<<<<<< HEAD
+    //GUI
+    private JLabel arregloDeEtiquetas[][] = new JLabel[10][10];
+    private ImageIcon arregloDeImagenes[] = new ImageIcon[7];
     private PintarfondoCeldas tablero[][]; //Matriz de Jlabel
     String path = "/Imagenes/0.jpg";
     URL url = this.getClass().getResource(path);
     private Image fondodetablero = new ImageIcon(url).getImage();
-    //GUI
-    private ImageIcon arregloImagenes[] = new ImageIcon[7];
 
     public Main() {
         initComponents();
-        //Deshabilitamos botones al iniciar
         bAmplitud.setEnabled(false);
         bAEstrella.setEnabled(false);
         bCostoUniforme.setEnabled(false);
@@ -102,112 +61,43 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         this.setVisible(true);
 
         //Cargando imagenes
-        arregloImagenes[0] = null;
-        arregloImagenes[1] = new ImageIcon("src/Imagenes/robot.png");
-        arregloImagenes[2] = new ImageIcon("src/Imagenes/objeto1.png");
-        arregloImagenes[3] = new ImageIcon("src/Imagenes/objeto2.png");
-        arregloImagenes[4] = new ImageIcon("src/Imagenes/3.jpg");
-        arregloImagenes[5] = new ImageIcon("src/Imagenes/cajon.png");
-        arregloImagenes[6] = new ImageIcon("src/Imagenes/ayuda.png");
 
-    }
-
-    //Crear el tablero para el aplicativo
-    public void crearTablero(JPanel panel) {
-        panel.setLayout(new GridLayout(obtenerFilas(), obtenerColumnas()));
-        for (int i = 0; i < obtenerFilas(); i++) {
-            for (int j = 0; j < obtenerColumnas(); j++) {
-                tablero[i][j] = new PintarfondoCeldas();
-                tablero[i][j].setImage(fondodetablero);
-                tablero[i][j].setIcon(retornarImagenDeCasillas(matriz.getMatriz()[i][j]));
-                if ((matriz.getMatriz()[i][j]) > 0) {
-                    tablero[i][j].setText("" + matriz.getMatriz()[i][j]);
-                }
-                tablero[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                tablero[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
-                tablero[i][j].setFont(new Font("Arial", 1, 12));
-                panel.add(tablero[i][j]);
-            }
-        }
+        arregloDeImagenes[0] = null;
+        arregloDeImagenes[1] = new ImageIcon("src/Imagenes/robot.png");
+        arregloDeImagenes[2] = new ImageIcon("src/Imagenes/objeto1.png");
+        arregloDeImagenes[3] = new ImageIcon("src/Imagenes/objeto2.png");
+        arregloDeImagenes[4] = new ImageIcon("src/Imagenes/3.jpg");
+        arregloDeImagenes[5] = new ImageIcon("src/Imagenes/cajon.png");
+        arregloDeImagenes[6] = new ImageIcon("src/Imagenes/ayuda.png");
     }
 
     //Asignar al LABEL la imagenen correspondiente.
     private void imprimirEstado(Matriz matriz) {
-=======
-   // private int valores[][]; //Matriz de enteros
-    private PintarfondoCeldas tablero[][]; //Matriz de Jlabel
-    String path = "/Imagenes/0.jpg";  
-URL url = this.getClass().getResource(path);  
-
-
-//ImageIcon fondodetablero = new ImageIcon(url);  
-private Image fondodetablero = new ImageIcon(url).getImage();
-    
-    
-    //GUI
-   // private JLabel arregloDeEtiquetas[][] = new JLabel[10][10];
-    private ImageIcon arregloDeImagenes[] = new ImageIcon[7];
-    //private PintadadeMatriz pintarmatriz;
-
-    //Se asignna a cada etiqueta la imagen a mostrar en pantalla.
-    private void cargarEstadoEnPantalla(Matriz matriz) {
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
         int[][] obj = matriz.getMatriz();
         matriz.imprimirMatriz();
         for (int i = 0; i < matriz.getDimension(); i++) {
             for (int j = 0; j < matriz.getDimension(); j++) {
-<<<<<<< HEAD
-                //      tablero[i][j].setIcon(retornarImagenDeCasillas(obj[i][j]));
-=======
-//                arregloDeEtiquetas[i][j].setIcon(retornarImagenDeCasillas(obj[i][j]));
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
+                //    arregloDeEtiquetas[i][j].setIcon(retornarImagenDeCasillas(obj[i][j]));
             }
         }
     }
 
-<<<<<<< HEAD
-    //Sacar copia del Estado
-    private Estado sacarEstadoCopia(Estado estado) {
-        Estado respuesta;
-        Matriz matrizAnterior = estado.getMatriz();
-        Matriz matrizNew = new Matriz();
-
-        int[][] matrizNueva = new int[matrizAnterior.getDimension()][matrizAnterior.getDimension()];
-        for (int j = 0; j < matrizNew.getDimension(); j++) {
-            matrizNueva[j] = Arrays.copyOf(matrizAnterior.getMatriz()[j], matrizAnterior.getDimension());
-        }
-        matrizNew.setMatriz(matrizNueva);
-        respuesta = new Estado(matrizNew);
-
-        return respuesta;
+    public void establecerFilas(int filas) {
+        this._filas = filas;
     }
 
-    private void generarParOperadorEstado(Estado estadoInicial, Vector<Operador> sol) {
-=======
-    
-    
-    public void establecerFilas( int filas ) { this._filas = filas; }
+    public void establecerColumnas(int columnas) {
+        this._columnas = columnas;
+    }
 
+    public int obtenerFilas() {
+        return _filas;
+    }
 
-    /*
-     * ============================================
-     * Establece el numero de columnas de la matriz
-     * @param columnas - Numero de columnas
-     * ============================================
-     */
-    public void establecerColumnas( int columnas ) { this._columnas = columnas; }
+    public int obtenerColumnas() {
+        return _columnas;
+    }
 
-    //Obtiene el numero de filas de la matriz
-    public int obtenerFilas() { return _filas; }
-
-    //Obtiene el numero de columnas de la matriz
-    public int obtenerColumnas() { return _columnas; }
-
-    
-    
-    
-    
-    
     private Estado sacarEstadoCopia(Estado estado) {
         Estado retorno;
         Matriz referenciada = estado.getMatriz();
@@ -223,106 +113,51 @@ private Image fondodetablero = new ImageIcon(url).getImage();
         return retorno;
     }
 
-    private void generarParOperadorEstado(Estado estadoInicial, Vector<Nodo> sol) {
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
+    public void crearTablero(JPanel panel) {
+        panel.setLayout(new GridLayout(obtenerFilas(), obtenerColumnas()));
+        for (int i = 0; i < obtenerFilas(); i++) {
+            for (int j = 0; j < obtenerColumnas(); j++) {
+                tablero[i][j] = new PintarfondoCeldas();
+
+                tablero[i][j].setImage(fondodetablero);
+                tablero[i][j].setIcon(retornarImagenDeCasillas(matriz.getMatriz()[i][j]));
+                if ((matriz.getMatriz()[i][j]) > 0) {
+                    tablero[i][j].setText("" + matriz.getMatriz()[i][j]);
+                }
+
+                tablero[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                tablero[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                tablero[i][j].setFont(new Font("Arial", 1, 12));
+
+                panel.add(tablero[i][j]);
+            }
+        }
+    }
+
+    private void generarParOperadorEstado(Estado estadoInicial, Vector<Operador> sol) {
         parejas = new Vector<OperadorEstado>();
         Estado copia = sacarEstadoCopia(estadoInicial);
 
         for (int i = 0; i < sol.size(); i++) {
-<<<<<<< HEAD
             copia.moverRobot(sol.elementAt(i));
             Estado copia2 = sacarEstadoCopia(copia);
             OperadorEstado pareja = new OperadorEstado(sol.elementAt(i), copia2);
-=======
-            copia.moverRobot(sol.elementAt(i).getOperador());
-            Estado copia2 = sacarEstadoCopia(copia);
-            OperadorEstado pareja = new OperadorEstado(sol.elementAt(i).getOperador(), copia2);
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
             parejas.add(pareja);
         }
     }
 
-<<<<<<< HEAD
     private Vector<Operador> ordenarVectorSalida(Vector<Nodo> vectorSalida) {
         Vector<Operador> retorno = new Vector();
-        for (int i = (vectorSalida.size() - 1); i >= 0; i--) {
-            retorno.add(vectorSalida.elementAt(i).getOperador());
-=======
-    private Vector<Nodo> ordenarVectorSalida(Vector<Nodo> vectorSalida) {
-        Vector<Nodo> retorno = new Vector();
 
         for (int i = (vectorSalida.size() - 1); i >= 0; i--) {
-            retorno.add(vectorSalida.elementAt(i));
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
+            retorno.add(vectorSalida.elementAt(i).getOperador());
         }
         return retorno;
     }
 
-<<<<<<< HEAD
     //Le asigna a cada posicion la imagen que le corresponda.
     private Icon retornarImagenDeCasillas(int posicion) {
         Icon retorno = null;
-        if (posicion == ID_VACIA) {
-            return arregloImagenes[0];
-        }
-        if (posicion == ID_ROBOT) {
-            return arregloImagenes[1];
-        }
-        if (posicion == ID_OBJETO_UNO) {
-            return arregloImagenes[2];
-        }
-        if (posicion == ID_OBJETO_DOS) {
-            return arregloImagenes[3];
-        }
-        if (posicion == ID_SITIO_UNO) {
-            return arregloImagenes[4];
-        }
-        if (posicion == ID_SITIO_DOS) {
-            return arregloImagenes[5];
-        }
-        if (posicion > 0) {
-            return arregloImagenes[6];
-=======
-          public void crearTablero( JPanel panel ) {
-   
-        panel.setLayout( new GridLayout( obtenerFilas(), obtenerColumnas() ) );
-        for( int i = 0; i < obtenerFilas(); i++ ) {
-            
-            for( int j = 0; j < obtenerColumnas(); j++ ) {          
-                
-                
-                tablero[i][j] = new PintarfondoCeldas();
-               // matriz[i][j].setSize(50,50);
-                //Icon icono = new ImageIcon(icon.getImage().getScaledInstance(matriz[i][j].getWidth(), matriz[i][j].getHeight(), Image.SCALE_SMOOTH));
-                
-              //tablero[i][j].setImage(retornarImagenDeCasillas(matriz.getMatriz()[i][j]));
-              
-              tablero[i][j].setImage(fondodetablero);
-              tablero[i][j].setIcon(retornarImagenDeCasillas(matriz.getMatriz()[i][j]));
-         if ((matriz.getMatriz()[i][j])>0)       
-            tablero[i][j].setText(""+matriz.getMatriz()[i][j]);
-                
-                
-                tablero[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-           //     tablero[i][j].setVerticalAlignment(PintarfondoCeldas.BOTTOM);
-              
-                tablero[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
-                tablero[i][j].setFont( new Font( "Arial", 1, 12 ) );  
-            //  matriz[i][j].setHorizontalAlignment( JLabel.CENTER );
-              
-                panel.add( tablero[i][j] );
-            }
-        }
-    }
-    
-    
-    
-    
-    
-    //Le asigna a cada posicion la imagen que le corresponda.
-    //private Image retornarImagenDeCasillas(int posicion) {
-       private ImageIcon retornarImagenDeCasillas(int posicion) {    
-        ImageIcon retorno = null;
 
         if (posicion == ID_VACIA) {
             return arregloDeImagenes[0];
@@ -347,37 +182,12 @@ private Image fondodetablero = new ImageIcon(url).getImage();
         if (posicion == ID_SITIO_DOS) {
             return arregloDeImagenes[5];
         }
-                
-        if (posicion >0) {
+        if (posicion > 0) {
             return arregloDeImagenes[6];
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
         }
         return retorno;
     }
 
-<<<<<<< HEAD
-=======
-    public Main() {
-
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setVisible(true);
-        
-        initComponents();
-
-        //Enlazando etiquetas
-       
-        //Cargando imagenes
-        arregloDeImagenes[0] = null;
-        arregloDeImagenes[1] = new ImageIcon("src/Imagenes/robot.png");
-        arregloDeImagenes[2] = new ImageIcon("src/Imagenes/objeto1.png");
-        arregloDeImagenes[3] = new ImageIcon("src/Imagenes/objeto2.png");
-        arregloDeImagenes[4] = new ImageIcon("src/Imagenes/3.jpg");
-        arregloDeImagenes[5] = new ImageIcon("src/Imagenes/cajon.png");
-        arregloDeImagenes[6] = new ImageIcon("src/Imagenes/ayuda.png");
-        
-    }
-
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -392,11 +202,7 @@ private Image fondodetablero = new ImageIcon(url).getImage();
         atras = new javax.swing.JButton();
         adelante = new javax.swing.JButton();
         tableroBusquedas = new javax.swing.JScrollPane();
-<<<<<<< HEAD
-        tableroInterfaz = new javax.swing.JPanel();
-=======
         jPanel1 = new javax.swing.JPanel();
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
         menu = new javax.swing.JPanel();
         cargarArchivo = new javax.swing.JButton();
         busquedas = new javax.swing.JPanel();
@@ -452,19 +258,11 @@ private Image fondodetablero = new ImageIcon(url).getImage();
         controladoresLayout.setHorizontalGroup(
             controladoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controladoresLayout.createSequentialGroup()
-<<<<<<< HEAD
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(atras, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(adelante, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-=======
-                .addContainerGap(246, Short.MAX_VALUE)
-                .addComponent(atras, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(adelante, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(246, Short.MAX_VALUE))
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
         );
         controladoresLayout.setVerticalGroup(
             controladoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,59 +272,34 @@ private Image fondodetablero = new ImageIcon(url).getImage();
 
         tableroBusquedas.setBorder(null);
 
-<<<<<<< HEAD
-        javax.swing.GroupLayout tableroInterfazLayout = new javax.swing.GroupLayout(tableroInterfaz);
-        tableroInterfaz.setLayout(tableroInterfazLayout);
-        tableroInterfazLayout.setHorizontalGroup(
-            tableroInterfazLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
-        );
-        tableroInterfazLayout.setVerticalGroup(
-            tableroInterfazLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
-        );
-
-        tableroBusquedas.setViewportView(tableroInterfaz);
-=======
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 626, Short.MAX_VALUE)
+            .addGap(0, 614, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
 
         tableroBusquedas.setViewportView(jPanel1);
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
 
         javax.swing.GroupLayout matrizGeneralLayout = new javax.swing.GroupLayout(matrizGeneral);
         matrizGeneral.setLayout(matrizGeneralLayout);
         matrizGeneralLayout.setHorizontalGroup(
             matrizGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(controladores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-<<<<<<< HEAD
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, matrizGeneralLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tableroBusquedas)
-=======
             .addGroup(matrizGeneralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tableroBusquedas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
+                .addComponent(tableroBusquedas)
                 .addContainerGap())
         );
         matrizGeneralLayout.setVerticalGroup(
             matrizGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, matrizGeneralLayout.createSequentialGroup()
-<<<<<<< HEAD
                 .addContainerGap()
                 .addComponent(tableroBusquedas)
-=======
-                .addComponent(tableroBusquedas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controladores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -689,11 +462,7 @@ private Image fondodetablero = new ImageIcon(url).getImage();
                             .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nodos, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-<<<<<<< HEAD
                         .addGap(92, 92, 92))))
-=======
-                        .addGap(83, 83, 83))))
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
             .addGroup(solucionLayout.createSequentialGroup()
                 .addGap(149, 149, 149)
                 .addComponent(algoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -702,12 +471,8 @@ private Image fondodetablero = new ImageIcon(url).getImage();
         solucionLayout.setVerticalGroup(
             solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(solucionLayout.createSequentialGroup()
-<<<<<<< HEAD
                 .addComponent(algoritmo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-=======
-                .addContainerGap()
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                 .addGroup(solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(nodos, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelNodos))
@@ -719,13 +484,7 @@ private Image fondodetablero = new ImageIcon(url).getImage();
                 .addGroup(solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTiempo))
-<<<<<<< HEAD
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-=======
-                .addGap(18, 18, 18)
-                .addComponent(algoritmo, javax.swing.GroupLayout.DEFAULT_SIZE, 11, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                 .addComponent(resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -770,31 +529,18 @@ private Image fondodetablero = new ImageIcon(url).getImage();
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-<<<<<<< HEAD
                 .addComponent(matrizGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-=======
-                .addComponent(matrizGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-<<<<<<< HEAD
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(matrizGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-=======
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(matrizGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                 .addContainerGap())
         );
 
@@ -804,7 +550,6 @@ private Image fondodetablero = new ImageIcon(url).getImage();
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
         int seleccionado = listaSolucion.getSelectedIndex();
         if (seleccionado > 0) {
-<<<<<<< HEAD
             imprimirEstado(parejas.elementAt(seleccionado - 1).getEstado().getMatriz());
             listaSolucion.setSelectedIndex(seleccionado - 1);
         } else {
@@ -812,14 +557,6 @@ private Image fondodetablero = new ImageIcon(url).getImage();
             listaSolucion.removeSelectionInterval(0, parejas.size());
         }
 
-=======
-            cargarEstadoEnPantalla(parejas.elementAt(seleccionado - 1).getEstado().getMatriz());
-            listaSolucion.setSelectedIndex(seleccionado - 1);
-        } else {
-            cargarEstadoEnPantalla(matriz);
-            listaSolucion.removeSelectionInterval(0, parejas.size());
-        }
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
     }//GEN-LAST:event_atrasActionPerformed
 
     private void adelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteActionPerformed
@@ -839,41 +576,29 @@ private Image fondodetablero = new ImageIcon(url).getImage();
                 if ((coordenada5 != null) && (coordenada5[0] != coordenadas5[0]) && (coordenada5[1] != coordenadas5[1]) && (coordenada5[0] == 0) && (coordenada5[1] == 0)) {
                     matriz1.actualizarCasilla(0, 0, '0');
                 }
-<<<<<<< HEAD
                 imprimirEstado(matriz1);
-=======
-                cargarEstadoEnPantalla(matriz1);
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
             } else {
                 matriz1 = parejas.elementAt(seleccionado + 1).getEstado().getMatriz();
                 matriz1.actualizarCasilla(coordenadas5[0], coordenadas5[1], '5');
                 if ((coordenada5 != null) && (coordenada5[0] != coordenadas5[0]) && (coordenada5[1] != coordenadas5[1]) && (coordenada5[0] == 0) && (coordenada5[1] == 0)) {
                     matriz1.actualizarCasilla(0, 0, '0');
                 }
-<<<<<<< HEAD
                 imprimirEstado(matriz1);
-=======
-                cargarEstadoEnPantalla(matriz1);
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
             }
             listaSolucion.setSelectedIndex(seleccionado + 1);
         }
     }//GEN-LAST:event_adelanteActionPerformed
 
-<<<<<<< HEAD
     private void informacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informacionActionPerformed
         // TODO add your handling code here:
         new Informacion();
     }//GEN-LAST:event_informacionActionPerformed
 
-=======
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
     private void ayudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ayudaActionPerformed
         // TODO add your handling code here:
         new Ayuda();
     }//GEN-LAST:event_ayudaActionPerformed
 
-<<<<<<< HEAD
     private void bAmplitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAmplitudActionPerformed
         // TODO add your handling code here:
         algoritmo.setText("Busqueda Preferente Por Amplitud");
@@ -1001,131 +726,11 @@ private Image fondodetablero = new ImageIcon(url).getImage();
         atras.setEnabled(true);
         adelante.setEnabled(true);
     }//GEN-LAST:event_bAvaraActionPerformed
-=======
-    private void informacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informacionActionPerformed
-        // TODO add your handling code here:
-        new Informacion();
-    }//GEN-LAST:event_informacionActionPerformed
-
-    private void bAvaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAvaraActionPerformed
-        // TODO add your handling code here:
-        cargarEstadoEnPantalla(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-        algoritmo.setText("Busqueda Avara");
-        Avara bus = new Avara(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> res = bus.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        Vector<Nodo> salida = ordenarVectorSalida(res);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).getOperador().toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(bus.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(bus.getcantidadDeNodosExpandidos() + "");
-
-        generarParOperadorEstado(estado, salida);
-    }//GEN-LAST:event_bAvaraActionPerformed
-
-    private void bAEstrellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAEstrellaActionPerformed
-        // TODO add your handling code here:
-        cargarEstadoEnPantalla(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-        algoritmo.setText("Busqueda A*");
-        AEstrella bus = new AEstrella(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> res = bus.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        Vector<Nodo> salida = ordenarVectorSalida(res);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).getOperador().toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(bus.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(bus.getcantidadDeNodosExpandidos() + "");
-
-        generarParOperadorEstado(estado, salida);
-    }//GEN-LAST:event_bAEstrellaActionPerformed
-
-    private void bCostoUniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCostoUniformeActionPerformed
-        // TODO add your handling code here:
-        cargarEstadoEnPantalla(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-        algoritmo.setText("Busqueda De Costo Uniforme");
-        CostoUniforme bus = new CostoUniforme(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> res = bus.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        Vector<Nodo> salida = ordenarVectorSalida(res);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).getOperador().toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(bus.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(bus.getcantidadDeNodosExpandidos() + "");
-
-        generarParOperadorEstado(estado, salida);
-    }//GEN-LAST:event_bCostoUniformeActionPerformed
-
-    private void bProfundidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProfundidadActionPerformed
-        // TODO add your handling code here:
-        cargarEstadoEnPantalla(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-        algoritmo.setText("Busqueda Preferente Por Profundidad");
-        Profundidad bus = new Profundidad(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> res = bus.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-
-        Vector<Nodo> salida = ordenarVectorSalida(res);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).getOperador().toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(bus.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(bus.getcantidadDeNodosExpandidos() + "");
-
-        generarParOperadorEstado(estado, salida);
-    }//GEN-LAST:event_bProfundidadActionPerformed
-
-    private void bAmplitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAmplitudActionPerformed
-    // TODO add your handling code here:
-       cargarEstadoEnPantalla(matriz);
-       Vector<String> operadoresDePareja = new Vector();
-       algoritmo.setText("Busqueda Preferente por Amplitud");
-       Amplitud bus = new Amplitud(problema);
-       tiempoInicio = System.currentTimeMillis();
-       Vector<Nodo> res = bus.aplicarAlgoritmo();
-       tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-
-       tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-       Vector<Nodo> salida = ordenarVectorSalida(res);
-       for (int i = 0; i < salida.size(); i++) {
-           operadoresDePareja.add(salida.elementAt(i).getOperador().toStringOperador());
-       }
-       listaSolucion.setListData(operadoresDePareja);
-       profundidad.setText(bus.getProfundidadDelArbol() + "");
-       tiempo.setText(tiempoTotal + " milisegundos");
-       nodos.setText(bus.getcantidadDeNodosExpandidos() + "");
-
-       generarParOperadorEstado(estado, salida);
-    }//GEN-LAST:event_bAmplitudActionPerformed
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
 
     private void cargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarArchivoActionPerformed
         // TODO add your handling code here:
         try {
             this.setVisible(false);
-<<<<<<< HEAD
             JFileChooser selectorArchivo = new JFileChooser();
             selectorArchivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
@@ -1140,46 +745,23 @@ private Image fondodetablero = new ImageIcon(url).getImage();
                 bProfundidad.setEnabled(true);
             }
             if (opcion == JFileChooser.CANCEL_OPTION) {
-=======
-            JFileChooser selectorDeAmbiente = new JFileChooser();
-            selectorDeAmbiente.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-            JTextArea areaDeTexto = new JTextArea();
-            int seleccion = selectorDeAmbiente.showOpenDialog(areaDeTexto);
-            if (seleccion == JFileChooser.APPROVE_OPTION) {
-                ambienteArchivo = selectorDeAmbiente.getSelectedFile();
-            }
-            if (seleccion == JFileChooser.CANCEL_OPTION) {
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                 JOptionPane.showMessageDialog(null, "Debe escoger un ambiente");
             }
             archivo = new Archivo(ambienteArchivo);
             matriz = new Matriz(archivo.leerArchivo());
-<<<<<<< HEAD
             estado = new Estado(matriz);
             problema = new Problema(estado);
+
+            //se crea el tablero
             establecerFilas(matriz.getDimension());
             establecerColumnas(matriz.getDimension());
             tablero = new PintarfondoCeldas[obtenerFilas()][obtenerColumnas()];
-            crearTablero(tableroInterfaz);
+            crearTablero(jPanel1);
+            
         } catch (NullPointerException e) {
         }
         this.setVisible(true);
         imprimirEstado(matriz);
-=======
-             
-        establecerFilas( matriz.getDimension() );
-        establecerColumnas( matriz.getDimension() );
-        tablero = new PintarfondoCeldas[ obtenerFilas() ][ obtenerColumnas()];
-            crearTablero(jPanel1);
-            estado = new Estado(matriz);
-            problema = new Problema(estado);
-        } catch (NullPointerException e) {
-        }
-        JOptionPane.showMessageDialog(null, "Ha selecionado el archivo ubicado en :\n" + ambienteArchivo.getPath());
-        this.setVisible(true);
-        cargarEstadoEnPantalla(matriz);
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
     }//GEN-LAST:event_cargarArchivoActionPerformed
 
     /**
@@ -1236,10 +818,7 @@ private Image fondodetablero = new ImageIcon(url).getImage();
     private javax.swing.JButton informacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-<<<<<<< HEAD
-=======
     private javax.swing.JPanel jPanel1;
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
     private javax.swing.JLabel labelNodos;
     private javax.swing.JLabel labelProfundidad;
     private javax.swing.JLabel labelTiempo;
@@ -1251,28 +830,6 @@ private Image fondodetablero = new ImageIcon(url).getImage();
     private javax.swing.JScrollPane resultado;
     private javax.swing.JPanel solucion;
     private javax.swing.JScrollPane tableroBusquedas;
-<<<<<<< HEAD
-    private javax.swing.JPanel tableroInterfaz;
     private javax.swing.JLabel tiempo;
     // End of variables declaration//GEN-END:variables
-
-    public void establecerFilas(int filas) {
-        this._filas = filas;
-    }
-
-    public void establecerColumnas(int columnas) {
-        this._columnas = columnas;
-    }
-
-    public int obtenerFilas() {
-        return _filas;
-    }
-
-    public int obtenerColumnas() {
-        return _columnas;
-    }
-=======
-    private javax.swing.JLabel tiempo;
-    // End of variables declaration//GEN-END:variables
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
 }

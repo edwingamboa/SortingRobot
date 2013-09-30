@@ -28,13 +28,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-<<<<<<< HEAD
               <Component id="matrizGeneral" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-=======
-              <Component id="matrizGeneral" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
               <Component id="menu" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
@@ -42,23 +37,13 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="menu" max="32767" attributes="0"/>
-                  <Component id="matrizGeneral" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-=======
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="matrizGeneral" max="32767" attributes="0"/>
                   <Component id="menu" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
           </Group>
       </Group>
     </DimensionLayout>
@@ -82,15 +67,9 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="controladores" alignment="0" max="32767" attributes="0"/>
-<<<<<<< HEAD
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="tableroBusquedas" max="32767" attributes="0"/>
-=======
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="tableroBusquedas" pref="0" max="32767" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
+                  <Component id="tableroBusquedas" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -98,12 +77,8 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-<<<<<<< HEAD
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="tableroBusquedas" max="32767" attributes="0"/>
-=======
-                  <Component id="tableroBusquedas" pref="0" max="32767" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="controladores" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -128,19 +103,11 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-<<<<<<< HEAD
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="atras" min="-2" pref="55" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="adelante" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-=======
-                      <EmptySpace pref="246" max="32767" attributes="0"/>
-                      <Component id="atras" min="-2" pref="55" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="adelante" min="-2" pref="57" max="-2" attributes="0"/>
-                      <EmptySpace pref="246" max="32767" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                   </Group>
               </Group>
             </DimensionLayout>
@@ -189,29 +156,17 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-<<<<<<< HEAD
-            <Container class="javax.swing.JPanel" name="tableroInterfaz">
-=======
             <Container class="javax.swing.JPanel" name="jPanel1">
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
                       <EmptySpace min="0" pref="614" max="32767" attributes="0"/>
-=======
-                      <EmptySpace min="0" pref="626" max="32767" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
                       <EmptySpace min="0" pref="550" max="32767" attributes="0"/>
-=======
-                      <EmptySpace min="0" pref="628" max="32767" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -453,11 +408,7 @@
                                   <Component id="profundidad" min="-2" pref="158" max="-2" attributes="0"/>
                                   <Component id="nodos" min="-2" pref="158" max="-2" attributes="0"/>
                               </Group>
-<<<<<<< HEAD
                               <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-=======
-                              <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                           </Group>
                       </Group>
                   </Group>
@@ -471,10 +422,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-<<<<<<< HEAD
                       <Component id="algoritmo" max="32767" attributes="0"/>
-=======
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="nodos" min="-2" pref="17" max="-2" attributes="0"/>
@@ -490,13 +438,7 @@
                           <Component id="tiempo" min="-2" pref="17" max="-2" attributes="0"/>
                           <Component id="labelTiempo" min="-2" max="-2" attributes="0"/>
                       </Group>
-<<<<<<< HEAD
                       <EmptySpace max="32767" attributes="0"/>
-=======
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="algoritmo" pref="11" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
->>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
                       <Component id="resultado" min="-2" pref="242" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
