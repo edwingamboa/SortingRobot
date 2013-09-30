@@ -1,3 +1,8 @@
 Manifest-Version: 1.0
 X-COMMENT: Main-Class will be added automatically by build
+<<<<<<< HEAD
+Main-Class: Main
+SplashScreen-Image: src/Images/splash.gif
+=======
 
+>>>>>>> 1fe6564f601de30443eed57566ed9912182d009b

@@ -10,10 +10,13 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
  
+<<<<<<< HEAD
+=======
 /**
  *
  * @author EdisonCor
  */
+>>>>>>> 1fe6564f601de30443eed57566ed9912182d009b
 public class PintarfondoCeldas extends JLabel{
  
     private float tran= 0.8f;
