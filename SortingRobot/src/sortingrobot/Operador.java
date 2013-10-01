@@ -48,7 +48,7 @@ public class Operador
             movimiento = "Izquierda";
         if(direccion=='r')            
             movimiento = "Derecha";
-        System.out.println(" Direccion: "+movimiento);
+        System.out.println(movimiento);
     }
     
     public String toStringOperador()
@@ -62,7 +62,7 @@ public class Operador
             movimiento = "Izquierda";
         if(direccion=='r')            
             movimiento = "Derecha";
-        String operador=" Direccion: "+movimiento;
+        String operador= movimiento;
         return operador;
     }   
 }

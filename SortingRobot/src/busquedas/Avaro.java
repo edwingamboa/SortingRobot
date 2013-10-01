@@ -23,11 +23,11 @@ import sortingrobot.Nodo;
 import sortingrobot.Operador;
 import sortingrobot.Problema;
 
-public class Avara extends Algoritmo{
+public class Avaro extends Algoritmo{
     private PriorityQueue<Nodo> nodos=new PriorityQueue<Nodo>(100,new ComparadorAvara());
 
-    public Avara(Problema problema){
-        super(problema);
+    public Avaro(Problema problema){
+        super(problema, "Avaro");
     }
 
     public Vector<Nodo> aplicarAlgoritmo(){

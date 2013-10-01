@@ -19,16 +19,16 @@ package busquedas;
 import java.util.Stack;
 import java.util.Vector;
 import sortingrobot.Nodo;
-import sortingrobot.Operador;
 import sortingrobot.Problema;
  
 public class Profundidad extends Algoritmo{
     private Stack<Nodo> nodos=new Stack<Nodo>();
 
     public Profundidad(Problema problema){
-        super(problema);
+        super(problema, "Profundidad");
     }
 
+    @Override
     public Vector<Nodo> aplicarAlgoritmo(){
         Nodo nodo;
         nodos.push(hacerNodoRaiz(problema.getEstadoInicial()));

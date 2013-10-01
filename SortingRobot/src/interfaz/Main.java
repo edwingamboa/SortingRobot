@@ -35,6 +35,8 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private Matriz matriz;
     private Estado estado;
     private Problema problema;
+    private Vector<Nodo> camino;
+    private int nodoCaminoSeleccionado = -1;
     private long tiempoInicio, tiempoTotal;
     private Vector<OperadorEstado> parejas;
     private int _filas; //Numero de filas de la matriz
@@ -71,17 +73,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         arregloDeImagenes[6] = new ImageIcon("src/Imagenes/ayuda.png");
     }
 
-    //Asignar al LABEL la imagenen correspondiente.
-    private void imprimirEstado(Matriz matriz) {
-        int[][] obj = matriz.getMatriz();
-        matriz.imprimirMatriz();
-        for (int i = 0; i < matriz.getDimension(); i++) {
-            for (int j = 0; j < matriz.getDimension(); j++) {
-                //    arregloDeEtiquetas[i][j].setIcon(retornarImagenDeCasillas(obj[i][j]));
-            }
-        }
-    }
-
     public void establecerFilas(int filas) {
         this._filas = filas;
     }
@@ -113,25 +104,27 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         return retorno;
     }
 
-    public void crearTablero(JPanel panel) {
-        panel.setLayout(new GridLayout(obtenerFilas(), obtenerColumnas()));
+    public void crearTablero(Matriz _matriz) {
+        jPanel1.removeAll();
+        jPanel1.setLayout(new GridLayout(obtenerFilas(), obtenerColumnas()));
         for (int i = 0; i < obtenerFilas(); i++) {
             for (int j = 0; j < obtenerColumnas(); j++) {
                 tablero[i][j] = new PintarfondoCeldas();
 
                 tablero[i][j].setImage(fondodetablero);
-                tablero[i][j].setIcon(retornarImagenDeCasillas(matriz.getMatriz()[i][j]));
-                if ((matriz.getMatriz()[i][j]) > 0) {
-                    tablero[i][j].setText("" + matriz.getMatriz()[i][j]);
+                tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
+                if ((_matriz.getMatriz()[i][j]) > 0) {
+                    tablero[i][j].setText("" + _matriz.getMatriz()[i][j]);
                 }
 
                 tablero[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 tablero[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
                 tablero[i][j].setFont(new Font("Arial", 1, 12));
 
-                panel.add(tablero[i][j]);
+                jPanel1.add(tablero[i][j]);
             }
         }
+        jPanel1.updateUI();
     }
 
     private void generarParOperadorEstado(Estado estadoInicial, Vector<Operador> sol) {
@@ -146,11 +139,11 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         }
     }
 
-    private Vector<Operador> ordenarVectorSalida(Vector<Nodo> vectorSalida) {
-        Vector<Operador> retorno = new Vector();
+    private Vector<Nodo> ordenarVectorSalida(Vector<Nodo> vectorSalida) {
+        Vector<Nodo> retorno = new Vector();
 
         for (int i = (vectorSalida.size() - 1); i >= 0; i--) {
-            retorno.add(vectorSalida.elementAt(i).getOperador());
+            retorno.add(vectorSalida.elementAt(i));
         }
         return retorno;
     }
@@ -224,7 +217,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         tiempo = new javax.swing.JLabel();
         resultado = new javax.swing.JScrollPane();
         listaSolucion = new javax.swing.JList();
-        algoritmo = new javax.swing.JLabel();
+        jLabelAlgoritmo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 51, 51));
@@ -280,7 +273,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 556, Short.MAX_VALUE)
         );
 
         tableroBusquedas.setViewportView(jPanel1);
@@ -465,13 +458,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                         .addGap(92, 92, 92))))
             .addGroup(solucionLayout.createSequentialGroup()
                 .addGap(149, 149, 149)
-                .addComponent(algoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         solucionLayout.setVerticalGroup(
             solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(solucionLayout.createSequentialGroup()
-                .addComponent(algoritmo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelAlgoritmo, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(nodos, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,7 +477,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                 .addGroup(solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTiempo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(solucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -548,44 +541,18 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     }// </editor-fold>//GEN-END:initComponents
 
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
-        int seleccionado = listaSolucion.getSelectedIndex();
-        if (seleccionado > 0) {
-            imprimirEstado(parejas.elementAt(seleccionado - 1).getEstado().getMatriz());
-            listaSolucion.setSelectedIndex(seleccionado - 1);
-        } else {
-            imprimirEstado(matriz);
-            listaSolucion.removeSelectionInterval(0, parejas.size());
+        if (nodoCaminoSeleccionado > 0) {
+            nodoCaminoSeleccionado--;
+            crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
+            listaSolucion.setSelectedIndex(nodoCaminoSeleccionado);
         }
-
     }//GEN-LAST:event_atrasActionPerformed
 
     private void adelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteActionPerformed
-        int seleccionado = listaSolucion.getSelectedIndex();
-        int[] coordenadas4 = new int[2];
-        int[] coordenadas5 = new int[2];
-        int[] coordenada5 = new int[2];
-        Matriz matriz1;
-        coordenadas5 = matriz.retornarCoordenadaDe('5');
-        if (seleccionado < (parejas.size() - 1)) {
-            coordenadas4 = parejas.elementAt(seleccionado + 1).getEstado().getMatriz().retornarCoordenadaDe('4');
-            coordenada5 = parejas.elementAt(seleccionado + 1).getEstado().getMatriz().retornarCoordenadaDe('5');
-
-            if ((coordenadas4[0] == coordenadas5[0]) && (coordenadas4[1] == coordenadas5[1])) {
-                matriz1 = parejas.elementAt(seleccionado + 1).getEstado().getMatriz();
-                matriz1.actualizarCasilla(coordenadas5[0], coordenadas5[1], '4');
-                if ((coordenada5 != null) && (coordenada5[0] != coordenadas5[0]) && (coordenada5[1] != coordenadas5[1]) && (coordenada5[0] == 0) && (coordenada5[1] == 0)) {
-                    matriz1.actualizarCasilla(0, 0, '0');
-                }
-                imprimirEstado(matriz1);
-            } else {
-                matriz1 = parejas.elementAt(seleccionado + 1).getEstado().getMatriz();
-                matriz1.actualizarCasilla(coordenadas5[0], coordenadas5[1], '5');
-                if ((coordenada5 != null) && (coordenada5[0] != coordenadas5[0]) && (coordenada5[1] != coordenadas5[1]) && (coordenada5[0] == 0) && (coordenada5[1] == 0)) {
-                    matriz1.actualizarCasilla(0, 0, '0');
-                }
-                imprimirEstado(matriz1);
-            }
-            listaSolucion.setSelectedIndex(seleccionado + 1);
+        if (nodoCaminoSeleccionado < (camino.size() - 1)) {
+            nodoCaminoSeleccionado++;
+            crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
+            listaSolucion.setSelectedIndex(nodoCaminoSeleccionado);
         }
     }//GEN-LAST:event_adelanteActionPerformed
 
@@ -601,132 +568,51 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
     private void bAmplitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAmplitudActionPerformed
         // TODO add your handling code here:
-        algoritmo.setText("Busqueda Preferente Por Amplitud");
-
-        imprimirEstado(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-
-        Amplitud busqueda = new Amplitud(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> respuesta = busqueda.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        Vector<Operador> salida = ordenarVectorSalida(respuesta);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(busqueda.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(busqueda.getcantidadDeNodosExpandidos() + "");
-
-        /* BOTONES */
-        generarParOperadorEstado(estado, salida);
-        atras.setEnabled(true);
-        adelante.setEnabled(true);
+        ejecutarAlgoritmo(new Amplitud(problema));
     }//GEN-LAST:event_bAmplitudActionPerformed
 
     private void bProfundidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProfundidadActionPerformed
         // TODO add your handling code here:
-        algoritmo.setText("Busqueda Preferente Por Profundidad");
-
-        imprimirEstado(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-        Profundidad busqueda = new Profundidad(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> respuesta = busqueda.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-
-        Vector<Operador> salida = ordenarVectorSalida(respuesta);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).toStringOperador());
-        }
-
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(busqueda.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(busqueda.getcantidadDeNodosExpandidos() + "");
-
-        /* BOTONES */
-        generarParOperadorEstado(estado, salida);
-        atras.setEnabled(true);
-        adelante.setEnabled(true);
+        ejecutarAlgoritmo(new Profundidad(problema));
     }//GEN-LAST:event_bProfundidadActionPerformed
 
     private void bCostoUniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCostoUniformeActionPerformed
         // TODO add your handling code here:
-        algoritmo.setText("Busqueda De Costo Uniforme");
-
-        imprimirEstado(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-        CostoUniforme busqueda = new CostoUniforme(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> respuesta = busqueda.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        Vector<Operador> salida = ordenarVectorSalida(respuesta);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(busqueda.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(busqueda.getcantidadDeNodosExpandidos() + "");
-
-        /* BOTONES */
-        generarParOperadorEstado(estado, salida);
-        atras.setEnabled(true);
-        adelante.setEnabled(true);
+        ejecutarAlgoritmo(new CostoUniforme(problema));
     }//GEN-LAST:event_bCostoUniformeActionPerformed
 
     private void bAEstrellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAEstrellaActionPerformed
         // TODO add your handling code here:
-        algoritmo.setText("Busqueda A*");
-
-        imprimirEstado(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-        AEstrella busqueda = new AEstrella(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> respuesta = busqueda.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        Vector<Operador> salida = ordenarVectorSalida(respuesta);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(busqueda.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(busqueda.getcantidadDeNodosExpandidos() + "");
-
-        /* BOTONES */
-        generarParOperadorEstado(estado, salida);
-        atras.setEnabled(true);
-        adelante.setEnabled(true);
+        ejecutarAlgoritmo(new AEstrella(problema));
     }//GEN-LAST:event_bAEstrellaActionPerformed
 
     private void bAvaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAvaraActionPerformed
         // TODO add your handling code here:
-        algoritmo.setText("Busqueda Avara");
-        imprimirEstado(matriz);
-        Vector<String> operadoresDePareja = new Vector();
-
-        Avara busqueda = new Avara(problema);
-        tiempoInicio = System.currentTimeMillis();
-        Vector<Nodo> respuesta = busqueda.aplicarAlgoritmo();
-        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-        Vector<Operador> salida = ordenarVectorSalida(respuesta);
-        for (int i = 0; i < salida.size(); i++) {
-            operadoresDePareja.add(salida.elementAt(i).toStringOperador());
-        }
-        listaSolucion.setListData(operadoresDePareja);
-        profundidad.setText(busqueda.getProfundidadDelArbol() + "");
-        tiempo.setText(tiempoTotal + " milisegundos");
-        nodos.setText(busqueda.getcantidadDeNodosExpandidos() + "");
-
-        /*BOTONES*/
-        generarParOperadorEstado(estado, salida);
-        atras.setEnabled(true);
-        adelante.setEnabled(true);
+        ejecutarAlgoritmo(new Avaro(problema));
     }//GEN-LAST:event_bAvaraActionPerformed
 
+    
+    private void ejecutarAlgoritmo(Algoritmo _algoritmo){
+        crearTablero(matriz);
+        jLabelAlgoritmo.setText("Algoritmo: " + _algoritmo.getNombre());
+        Vector<String> operadoresDePareja = new Vector();
+        tiempoInicio = System.currentTimeMillis();
+        Vector<Nodo> respuesta = _algoritmo.aplicarAlgoritmo();
+        tiempoTotal = System.currentTimeMillis() - tiempoInicio;
+
+        camino = ordenarVectorSalida(respuesta);
+        for (int i = 0; i < camino.size(); i++) {
+            operadoresDePareja.add(camino.elementAt(i).getOperador().toStringOperador());
+        }
+        listaSolucion.setListData(operadoresDePareja);
+        profundidad.setText(_algoritmo.getProfundidadDelArbol() + "");
+        tiempo.setText(tiempoTotal + " milisegundos");
+        nodos.setText(_algoritmo.getcantidadDeNodosExpandidos() + "");
+
+        /* BOTONES */
+        atras.setEnabled(true);
+        adelante.setEnabled(true);
+    }
     private void cargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarArchivoActionPerformed
         // TODO add your handling code here:
         try {
@@ -756,12 +642,11 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             establecerFilas(matriz.getDimension());
             establecerColumnas(matriz.getDimension());
             tablero = new PintarfondoCeldas[obtenerFilas()][obtenerColumnas()];
-            crearTablero(jPanel1);
+            crearTablero(matriz);
             
         } catch (NullPointerException e) {
         }
         this.setVisible(true);
-        imprimirEstado(matriz);
     }//GEN-LAST:event_cargarArchivoActionPerformed
 
     /**
@@ -804,7 +689,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adelante;
-    private javax.swing.JLabel algoritmo;
     private javax.swing.JButton atras;
     private javax.swing.JButton ayuda;
     private javax.swing.JButton bAEstrella;
@@ -818,6 +702,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private javax.swing.JButton informacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelAlgoritmo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelNodos;
     private javax.swing.JLabel labelProfundidad;

@@ -28,9 +28,10 @@ public class AEstrella extends Algoritmo{
     private PriorityQueue<Nodo> nodos=new PriorityQueue<Nodo>(100,new ComparadorAEstrella());
 
     public AEstrella(Problema problema){
-        super(problema);
+        super(problema, "A Estrella");
     }
-
+    
+    @Override
     public Vector<Nodo> aplicarAlgoritmo(){
         Nodo nodo;
         nodos.add(hacerNodoRaiz(problema.getEstadoInicial()));

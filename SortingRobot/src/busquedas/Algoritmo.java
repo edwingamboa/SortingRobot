@@ -27,11 +27,17 @@ public class Algoritmo implements IdObjetos {
     Problema problema;
     int pesoObjetoUno, pesoObjetoDos;
     int costoRobotCargado = 0, costoTotal = 0, costoNodoPadre = 0;
+    String nombre;
 
-    public Algoritmo(Problema _problema) {
+    public Algoritmo(Problema _problema, String _nombre) {
         this.problema = _problema;
         this.pesoObjetoUno = problema.getEstadoInicial().getMatriz().getPesoObjetoUno();
         this.pesoObjetoDos = problema.getEstadoInicial().getMatriz().getPesoObjetoDos();
+        this.nombre = _nombre;
+    }
+    //Se define en cada Algoritmo
+    public Vector<Nodo> aplicarAlgoritmo(){
+        return null;
     }
 
     public Nodo hacerNodoRaiz(Estado estado) {
@@ -99,5 +105,9 @@ public class Algoritmo implements IdObjetos {
 
     public int getProfundidadDelArbol() {
         return profundidadDelArbol;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }

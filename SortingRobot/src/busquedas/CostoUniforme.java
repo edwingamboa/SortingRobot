@@ -17,22 +17,19 @@ Clase: Búsqueda de Costo Uniforme
 package busquedas;
 
 import busquedas.comparadores.ComparadorCostoUniforme;
-import sortingrobot.Problema;
 import java.util.PriorityQueue;
 import java.util.Vector;
 import sortingrobot.Nodo;
-import sortingrobot.Nodo;
-import sortingrobot.Operador;
-import sortingrobot.Operador;
 import sortingrobot.Problema;
 
 public class CostoUniforme extends Algoritmo{
     private PriorityQueue<Nodo> nodos=new PriorityQueue<Nodo>(100,new ComparadorCostoUniforme());
 
     public CostoUniforme(Problema problema){
-        super(problema);
+        super(problema, "Costo Uniforme");
     }
 
+    @Override
     public Vector<Nodo> aplicarAlgoritmo(){
         Nodo nodo;
         nodos.add(hacerNodoRaiz(problema.getEstadoInicial()));

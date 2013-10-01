@@ -16,23 +16,20 @@ Clase: Búsqueda Preferente por Amplitud
 
 package busquedas;
 
-import sortingrobot.Problema;
 import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
 import sortingrobot.Nodo;
-import sortingrobot.Nodo;
-import sortingrobot.Operador;
-import sortingrobot.Operador;
 import sortingrobot.Problema;
 
 public class Amplitud extends Algoritmo{
     private Queue<Nodo> nodos = new LinkedBlockingQueue<Nodo>();
 
     public Amplitud(Problema _problema){
-        super(_problema);        
+        super(_problema, "Preferente por Amplitud");        
     }
     
+    @Override
     public Vector<Nodo> aplicarAlgoritmo(){
         Nodo nodo;
         nodos.add(hacerNodoRaiz(problema.getEstadoInicial()));
