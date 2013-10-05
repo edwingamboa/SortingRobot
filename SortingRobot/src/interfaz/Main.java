@@ -39,12 +39,11 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private Vector<Nodo> camino;
     private int nodoCaminoSeleccionado = -1;
     private long tiempoInicio, tiempoTotal;
-    private Vector<OperadorEstado> parejas;
     private Vector<String> movimientoResultado;
     private int _filas; //Numero de filas de la matriz
     private int _columnas; //Numero de columnas de la matriz
     private int _tamanoSolucion = 0;
-    private int pararHilo=2;
+    private int pararHilo = 2;
     //GUI
     private ImageIcon arregloDeImagenes[] = new ImageIcon[7];
     private PintarfondoCeldas tablero[][]; //Matriz de Jlabel
@@ -60,7 +59,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         bAvara.setEnabled(false);
         bProfundidad.setEnabled(false);
         atras.setEnabled(false);
-        adelante.setEnabled(false);
         bPlay.setEnabled(false);
         bMostrarSolucion.setEnabled(false);
         animacionRobot.start();
@@ -79,21 +77,61 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         arregloDeImagenes[6] = new ImageIcon("src/Imagenes/ayuda.png");
     }
 
-    public void establecerFilas(int filas) {
-        this._filas = filas;
-    }
+    public Integer playRobot() {
+        //  System.out.println(nodoCaminoSeleccionado+" y "+(camino.size() - 1));
+        if (nodoCaminoSeleccionado < (camino.size() - 1)) {
+            nodoCaminoSeleccionado++;
+            crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
+            pararHilo = 1;
+            System.out.println(nodoCaminoSeleccionado + " " + (camino.size() - 1));
+        } else {
+            pararHilo = 0;
+        }
 
-    public void establecerColumnas(int columnas) {
-        this._columnas = columnas;
-    }
+        return pararHilo;
 
-    public int obtenerFilas() {
-        return _filas;
     }
+    //hilo animacionRobot
+    private Thread animacionRobot = new Thread(new Runnable() {
+        public void run() {
+            while (true) {
+                if (pararHilo != 2) {
 
-    public int obtenerColumnas() {
-        return _columnas;
-    }
+                    if (playRobot() == 1) {
+                        synchronized (animacionRobot) {
+                            try {
+                                animacionRobot.wait(500);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    } else if (playRobot() == 0) {
+                        synchronized (animacionRobot) {
+                            try {
+                                // System.out.println(playRobot()+" se duerme");
+
+                                animacionRobot.wait();
+
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+
+                } else {
+                    synchronized (animacionRobot) {
+                        try {
+                            // System.out.println(" se duerme");
+                            animacionRobot.wait();
+
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        }
+    });
 
     //Se crea el tablero a manejar, el conjunto de labels
     public void crearTablero(Matriz _matriz) {
@@ -152,6 +190,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         }
     }
 
+    //Secuencia encargada de ejecutar cada algoritmo
     private void ejecutarAlgoritmo(Algoritmo _algoritmo) {
         crearTablero(matriz);
         labelAlgoritmo.setText("Algoritmo: " + _algoritmo.getNombre());
@@ -172,9 +211,24 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
         /* BOTONES */
         atras.setEnabled(false);
-        adelante.setEnabled(true);
         bPlay.setEnabled(true);
         bMostrarSolucion.setEnabled(true);
+    }
+
+    public void establecerFilas(int filas) {
+        this._filas = filas;
+    }
+
+    public void establecerColumnas(int columnas) {
+        this._columnas = columnas;
+    }
+
+    public int obtenerFilas() {
+        return _filas;
+    }
+
+    public int obtenerColumnas() {
+        return _columnas;
     }
 
     /**
@@ -189,12 +243,11 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         matrizGeneral = new javax.swing.JPanel();
         controladores = new javax.swing.JPanel();
         atras = new javax.swing.JButton();
-        adelante = new javax.swing.JButton();
+        bPlay = new javax.swing.JButton();
         tableroBusquedas = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         labelAlgoritmo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        bPlay = new javax.swing.JButton();
         txtCosto = new javax.swing.JLabel();
         txtTiempo = new javax.swing.JLabel();
         labelCosto = new javax.swing.JLabel();
@@ -234,13 +287,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             }
         });
 
-        adelante.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/der.png"))); // NOI18N
-        adelante.setBorderPainted(false);
-        adelante.setFocusPainted(false);
-        adelante.setFocusable(false);
-        adelante.addActionListener(new java.awt.event.ActionListener() {
+        bPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
+        bPlay.setBorderPainted(false);
+        bPlay.setFocusPainted(false);
+        bPlay.setFocusable(false);
+        bPlay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                adelanteActionPerformed(evt);
+                bPlayActionPerformed(evt);
             }
         });
 
@@ -252,12 +305,12 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(atras, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(adelante, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         controladoresLayout.setVerticalGroup(
             controladoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(adelante, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(bPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(atras, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
@@ -275,16 +328,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         );
 
         tableroBusquedas.setViewportView(jPanel1);
-
-        bPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
-        bPlay.setBorderPainted(false);
-        bPlay.setFocusPainted(false);
-        bPlay.setFocusable(false);
-        bPlay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPlayActionPerformed(evt);
-            }
-        });
 
         txtCosto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -306,8 +349,8 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(71, 71, 71)
                 .addComponent(labelNodos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtNodos, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,15 +366,12 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                 .addComponent(labelCosto)
                 .addGap(0, 0, 0)
                 .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bPlay)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(64, 64, 64))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bPlay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTiempo)
@@ -340,7 +380,8 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                     .addComponent(labelProfundidad)
                     .addComponent(txtProfundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNodos, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelNodos)))
+                    .addComponent(labelNodos))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout matrizGeneralLayout = new javax.swing.GroupLayout(matrizGeneral);
@@ -367,7 +408,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                 .addComponent(labelAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(tableroBusquedas, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controladores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -609,94 +650,26 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             establecerColumnas(matriz.getDimension());
             tablero = new PintarfondoCeldas[obtenerFilas()][obtenerColumnas()];
             crearTablero(matriz);
-            pararHilo=0;
+            pararHilo = 0;
 
         } catch (NullPointerException e) {
         }
         this.setVisible(true);
     }//GEN-LAST:event_cargarArchivoActionPerformed
-
     private void bPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlayActionPerformed
-        // TODO add your handling code here:
+        synchronized (animacionRobot) {
+            atras.setEnabled(true);
+            bPlay.setEnabled(false);
+            animacionRobot.notify();
+        }
     }//GEN-LAST:event_bPlayActionPerformed
 
-    public Integer playRobot(){
-       
-      //  System.out.println(nodoCaminoSeleccionado+" y "+(camino.size() - 1));
-        if (nodoCaminoSeleccionado < (camino.size() - 1)) {
-            nodoCaminoSeleccionado++;
-            crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
-            pararHilo=1;
-            System.out.println(nodoCaminoSeleccionado+" "+(camino.size() - 1));
-        }else
-        pararHilo=0;
-        
-        return pararHilo;
-    
-    }
-    
-    
-    private Thread animacionRobot = new Thread( new Runnable() {
-            public void run() {
-      
-             
-         while(true)    
-         {  
-     
-             if (pararHilo!=2)
-             { 
-                 
-                 if (playRobot()== 1)
-               synchronized(animacionRobot){
-                        try {
-                            animacionRobot.wait(500);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                        }}
-             else
-                   
-                   if (playRobot()== 0 )
-             synchronized(animacionRobot){
-                        try {
-                           // System.out.println(playRobot()+" se duerme");
-                            
-                            animacionRobot.wait();
-                            
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                        }}
-            
-             }else
-                 synchronized(animacionRobot){
-                        try {
-                           // System.out.println(" se duerme");
-                            animacionRobot.wait();
-                            
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                        }}
-                }
-            }
-        });
-    
-    
-    private void adelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteActionPerformed
-synchronized(animacionRobot){
-    atras.setEnabled(true);
-                            adelante.setEnabled(false);
-        animacionRobot.notify();
-        
-
-}
-    }//GEN-LAST:event_adelanteActionPerformed
-
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
-    nodoCaminoSeleccionado=0;
-     
-            crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
-            atras.setEnabled(false);
-                            adelante.setEnabled(true);
-                            
+        nodoCaminoSeleccionado = 0;
+        crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
+        atras.setEnabled(false);
+        bPlay.setEnabled(true);
+
     }//GEN-LAST:event_atrasActionPerformed
 
     private void bMostrarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMostrarSolucionActionPerformed
@@ -754,7 +727,6 @@ synchronized(animacionRobot){
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton adelante;
     private javax.swing.JButton atras;
     private javax.swing.JButton bAEstrella;
     private javax.swing.JButton bAmplitud;
