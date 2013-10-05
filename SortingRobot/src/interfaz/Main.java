@@ -22,6 +22,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class Main extends javax.swing.JFrame implements IdObjetos {
@@ -42,6 +44,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private int _filas; //Numero de filas de la matriz
     private int _columnas; //Numero de columnas de la matriz
     private int _tamanoSolucion = 0;
+    private int pararHilo=2;
     //GUI
     private ImageIcon arregloDeImagenes[] = new ImageIcon[7];
     private PintarfondoCeldas tablero[][]; //Matriz de Jlabel
@@ -60,6 +63,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         adelante.setEnabled(false);
         bPlay.setEnabled(false);
         bMostrarSolucion.setEnabled(false);
+        animacionRobot.start();
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
@@ -106,7 +110,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
                 tablero[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 tablero[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
-                tablero[i][j].setFont(new Font("Arial", 1, 12));
+                tablero[i][j].setFont(new Font("Arial", 1, 14));
 
                 jPanel1.add(tablero[i][j]);
             }
@@ -579,6 +583,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             establecerColumnas(matriz.getDimension());
             tablero = new PintarfondoCeldas[obtenerFilas()][obtenerColumnas()];
             crearTablero(matriz);
+            pararHilo=0;
 
         } catch (NullPointerException e) {
         }
@@ -589,18 +594,77 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         // TODO add your handling code here:
     }//GEN-LAST:event_bPlayActionPerformed
 
-    private void adelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteActionPerformed
+    public Integer playRobot(){
+       
+      //  System.out.println(nodoCaminoSeleccionado+" y "+(camino.size() - 1));
         if (nodoCaminoSeleccionado < (camino.size() - 1)) {
             nodoCaminoSeleccionado++;
             crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
-        }
+            pararHilo=1;
+            System.out.println(nodoCaminoSeleccionado+" "+(camino.size() - 1));
+        }else
+        pararHilo=0;
+        
+        return pararHilo;
+    
+    }
+    
+    
+    private Thread animacionRobot = new Thread( new Runnable() {
+            public void run() {
+      
+             
+         while(true)    
+         {  
+     
+             if (pararHilo!=2)
+             { 
+                 
+                 if (playRobot()== 1)
+               synchronized(animacionRobot){
+                        try {
+                            animacionRobot.wait(500);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }}
+             else
+                   
+                   if (playRobot()== 0 )
+             synchronized(animacionRobot){
+                        try {
+                           // System.out.println(playRobot()+" se duerme");
+                            animacionRobot.wait();
+                            
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }}
+            
+             }else
+                 synchronized(animacionRobot){
+                        try {
+                           // System.out.println(" se duerme");
+                            animacionRobot.wait();
+                            
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }}
+                }
+            }
+        });
+    
+    
+    private void adelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteActionPerformed
+synchronized(animacionRobot){
+        animacionRobot.notify();
+        
+
+}
     }//GEN-LAST:event_adelanteActionPerformed
 
     private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
-        if (nodoCaminoSeleccionado > 0) {
-            nodoCaminoSeleccionado--;
+    nodoCaminoSeleccionado=0;
+     
             crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
-        }
     }//GEN-LAST:event_atrasActionPerformed
 
     private void bMostrarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMostrarSolucionActionPerformed
