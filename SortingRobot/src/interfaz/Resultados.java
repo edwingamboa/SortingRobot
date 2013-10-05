@@ -27,10 +27,18 @@ public class Resultados extends javax.swing.JFrame {
     Vector<String> ruta;
     private ImageIcon arregloDeImagenes[] = new ImageIcon[4];
     private PintarfondoCeldas movimientos[][]; //Matriz de Jlabel
+    String path = "/Imagenes/0.jpg";
+    URL url = this.getClass().getResource(path);
+    private Image fondodetablero = new ImageIcon(url).getImage();
     int limite = 0, filas = 0, columnas = 0;
 
     public Resultados(Vector<String> ruta, int tamanoSolucion) {
         initComponents();
+        //imagenes
+        arregloDeImagenes[0] = new ImageIcon("src/Imagenes/adelante.png");
+        arregloDeImagenes[1] = new ImageIcon("src/Imagenes/atras.png");
+        arregloDeImagenes[2] = new ImageIcon("src/Imagenes/izq.png");
+        arregloDeImagenes[3] = new ImageIcon("src/Imagenes/der.png");
         this.ruta = ruta;
         limite = tamanoSolucion;
         obtenerFilasColumnas(limite);
@@ -41,36 +49,46 @@ public class Resultados extends javax.swing.JFrame {
         if (tamano <= 10) {
             filas = 1;
             columnas = tamano;
-        }else{
-            columnas= 10;
-            filas = (int) Math.ceil(tamano/10);
+        } else {
+            columnas = 10;
+            filas = (int) Math.ceil(tamano / 10);
         }
     }
 
     private Icon retornarMovimiento(String movimiento) {
-        if (movimiento.equalsIgnoreCase("arriba")) {
-            return arregloDeImagenes[0];
-        } else if (movimiento.equalsIgnoreCase("abajo")) {
-            return arregloDeImagenes[1];
-        } else if (movimiento.equalsIgnoreCase("izquierda")) {
-            return arregloDeImagenes[2];
-        } else if (movimiento.equalsIgnoreCase("derecha")) {
-            return arregloDeImagenes[3];
+        switch (movimiento) {
+            case "Arriba":
+                return arregloDeImagenes[0];
+            case "Abajo":
+                return arregloDeImagenes[1];
+            case "Izquierda":
+                return arregloDeImagenes[2];
+            case "Derecha":
+                return arregloDeImagenes[3];
         }
         return null;
     }
 
     public void crearTablero(Vector<String> ruta) {
+        System.out.println("ACA EMPIEZA A CREAR TABLERO");
         panelResultado.removeAll();
-        panelResultado.setLayout(new GridLayout(filas, 10));
-
+        panelResultado.setLayout(new GridLayout(filas, columnas));
+        int x = 0;
+        System.out.println(filas);
+        System.out.println(columnas);
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                movimientos[i][j].setIcon(retornarMovimiento(ruta.elementAt(i+j)));
-                movimientos[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                movimientos[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
-                movimientos[i][j].setFont(new Font("Arial", 1, 12));
-                panelResultado.add(movimientos[i][j]);
+                if (x < limite) {
+                    movimientos[i][j] = new PintarfondoCeldas();
+                    movimientos[i][j].setImage(fondodetablero);
+                    System.out.println(retornarMovimiento(ruta.elementAt(x)));
+                    movimientos[i][j].setIcon(retornarMovimiento(ruta.elementAt(x)));
+                    movimientos[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                    movimientos[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                    movimientos[i][j].setFont(new Font("Arial", 1, 12));
+                    panelResultado.add(movimientos[i][j]);
+                    x++;
+                }
             }
         }
         panelResultado.updateUI();
