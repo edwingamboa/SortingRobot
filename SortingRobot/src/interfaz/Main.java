@@ -171,7 +171,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         txtNodos.setText(_algoritmo.getcantidadDeNodosExpandidos() + "");
 
         /* BOTONES */
-        atras.setEnabled(true);
+        atras.setEnabled(false);
         adelante.setEnabled(true);
         bPlay.setEnabled(true);
         bMostrarSolucion.setEnabled(true);
@@ -659,6 +659,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
              synchronized(animacionRobot){
                         try {
                            // System.out.println(playRobot()+" se duerme");
+                            
                             animacionRobot.wait();
                             
                         } catch (InterruptedException ex) {
@@ -681,6 +682,8 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     
     private void adelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adelanteActionPerformed
 synchronized(animacionRobot){
+    atras.setEnabled(true);
+                            adelante.setEnabled(false);
         animacionRobot.notify();
         
 
@@ -691,6 +694,9 @@ synchronized(animacionRobot){
     nodoCaminoSeleccionado=0;
      
             crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
+            atras.setEnabled(false);
+                            adelante.setEnabled(true);
+                            
     }//GEN-LAST:event_atrasActionPerformed
 
     private void bMostrarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMostrarSolucionActionPerformed
