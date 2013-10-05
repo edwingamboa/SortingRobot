@@ -478,8 +478,18 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         });
 
         bAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Ayuda.png"))); // NOI18N
+        bAyuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAyudaActionPerformed(evt);
+            }
+        });
 
         bInformacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/informacion.png"))); // NOI18N
+        bInformacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bInformacionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
         menu.setLayout(menuLayout);
@@ -688,6 +698,16 @@ synchronized(animacionRobot){
         Resultados resultado = new Resultados(movimientoResultado, _tamanoSolucion);
         resultado.setVisible(true);
     }//GEN-LAST:event_bMostrarSolucionActionPerformed
+
+    private void bInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInformacionActionPerformed
+        // TODO add your handling code here:
+        new Informacion();
+    }//GEN-LAST:event_bInformacionActionPerformed
+
+    private void bAyudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAyudaActionPerformed
+        // TODO add your handling code here:
+        new Ayuda();
+    }//GEN-LAST:event_bAyudaActionPerformed
 
     /**
      * @param args the command line arguments

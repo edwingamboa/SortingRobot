@@ -521,6 +521,9 @@
               <Image iconType="3" name="/Imagenes/Ayuda.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bAyudaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bInformacion">
           <Properties>
@@ -528,6 +531,9 @@
               <Image iconType="3" name="/Imagenes/informacion.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bInformacionActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

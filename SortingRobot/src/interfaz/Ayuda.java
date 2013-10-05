@@ -1,21 +1,5 @@
-/******************************************************************************
-                                Sorting Robot
-                                
-Inteligencia Artificial: Proyecto No 1
-* Jesús Alexander Aranda Bueno
-
-Presentado por:
-* Roger Fernandez       -  201310229
-* Edwin Gamboa          -  201310233
-* Francisco Rojas       -  201310273
-* David Zuluaga         -  201310294
-
-Interfaz con especificaciones de ayuda para el proyecto.
-******************************************************************************/
-
 package interfaz;
 
-import javax.swing.ImageIcon;
 
 public class Ayuda extends javax.swing.JDialog {
 
