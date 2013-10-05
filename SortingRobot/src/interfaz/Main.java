@@ -98,7 +98,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         for (int i = 0; i < obtenerFilas(); i++) {
             for (int j = 0; j < obtenerColumnas(); j++) {
                 tablero[i][j] = new PintarfondoCeldas();
-
                 tablero[i][j].setImage(fondodetablero);
                 tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
                 if ((_matriz.getMatriz()[i][j]) > 0) {
