@@ -7,14 +7,10 @@ package interfaz;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.net.URL;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import sortingrobot.Matriz;
-
 /**
  *
  * @author Usuario Asus
