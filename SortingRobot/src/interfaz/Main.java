@@ -216,6 +216,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         txtProfundidad.setText(_algoritmo.getProfundidadDelArbol() + "");
         txtTiempo.setText(tiempoTotal + " milisegundos");
         txtNodos.setText(_algoritmo.getcantidadDeNodosExpandidos() + "");
+        txtCosto.setText(String.valueOf(camino.elementAt(camino.size()-1).getCostoDeRuta()));
 
         /* BOTONES */
         stop.setEnabled(false);
