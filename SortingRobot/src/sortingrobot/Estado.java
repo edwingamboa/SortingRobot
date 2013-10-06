@@ -76,27 +76,9 @@ public class Estado{
     public boolean moverRobot(Operador operador){         
         char direccion=operador.getDireccion(); 
         int[] coordenada=matriz.retornarCoordenadaDe(matriz.getSortingRobot().getId());
-         if(coordenada!=null){
-            //Izquierda                       
-            if(direccion=='l'){       
+         if(coordenada!=null){      
                costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
                return true;
-            }
-            //Derecha
-            if(direccion=='r'){
-                costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
-                return true;
-            } 
-           //Arriba
-           if(direccion=='u'){
-               costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
-               return true;
-           }
-           //Abajo
-           if(direccion=='d'){
-               costoMovimiento += matriz.moverFicha(coordenada[0],coordenada[1], direccion);
-               return true;
-           }
          }
          return false; 
     }

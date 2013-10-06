@@ -17,6 +17,7 @@ package sortingrobot;
 
 import java.util.Vector; 
 import javax.swing.JOptionPane;
+import static sortingrobot.IdObjetos.ID_SITIO_UNO_CON_ROBOT;
 
 public class Matriz implements IdObjetos{    
     private int[] conjuntoIds={ID_VACIA, ID_ROBOT, ID_OBJETO_UNO, ID_OBJETO_DOS,
@@ -43,8 +44,10 @@ public class Matriz implements IdObjetos{
         construirMatriz();        
     }
 
-    public Matriz(){
+    public Matriz(){        
     }
+    
+    
     
     public int[][] getMatriz()
     {
@@ -93,7 +96,7 @@ public class Matriz implements IdObjetos{
     }
     
     public SitioObjeto getSitioDos(){
-        return this.sitioUno;
+        return this.sitioDos;
     }
 
     public void setPesoObjetoUno(int pesoObjetoUno) {
@@ -121,26 +124,59 @@ public class Matriz implements IdObjetos{
     }
     
     public void setCoordenadasSitioDos(int fila, int columna){
-        this.sitioDos.setCoordenadas(fila, columna);
+        this.sitioDos.setCoordenadas(fila, columna);       
+        
     }
     
-    public int getDepositoSortingRobot()
-    {
+    public void verificarSitios(){
+        int[] coorRobot = retornarCoordenadaDe(ID_SITIO_UNO_CON_ROBOT);
+        if(coorRobot !=null){
+            if(sitioUno.getFila() != coorRobot[0] 
+                    || sitioUno.getColumna() != coorRobot[1]){
+                matriz[sitioUno.getFila()][sitioUno.getColumna()] = ID_SITIO_UNO;
+                if(matriz[coorRobot[0]][coorRobot[1]] == ID_SITIO_DOS)
+                    matriz[coorRobot[0]][coorRobot[1]] = ID_SITIO_DOS_CON_ROBOT;
+                else
+                    matriz[coorRobot[0]][coorRobot[1]] = ID_ROBOT;
+            }
+        }else {
+            coorRobot = retornarCoordenadaDe(ID_SITIO_DOS_CON_ROBOT);
+            if(coorRobot !=null){          
+                if(sitioDos.getFila() != coorRobot[0] 
+                        || sitioDos.getColumna() != coorRobot[1]){
+                    matriz[sitioDos.getFila()][sitioDos.getColumna()] = ID_SITIO_DOS;
+                    if(matriz[coorRobot[0]][coorRobot[1]] == ID_SITIO_UNO)
+                    matriz[coorRobot[0]][coorRobot[1]] = ID_SITIO_UNO_CON_ROBOT;
+                else
+                    matriz[coorRobot[0]][coorRobot[1]] = ID_ROBOT;
+                }
+            }
+        }
+    }
+    
+    public int getDepositoSortingRobot(){
         return this.robot.getValorDeposito();
     }
+
+   
   
-    public void construirMatriz()
-    {
+    public void construirMatriz(){
        for(int fila=1;fila<vectorFila.size();fila++){
            for(int columna=0;columna<dimension;columna++){
                matriz[fila-1][columna]=vectorFila.elementAt(fila)[columna];
-               if(vectorFila.elementAt(fila)[columna] < 0)
+               if(vectorFila.elementAt(fila)[columna] < 0){
                    matrizPenalizaciones[fila-1][columna]=ID_VACIA;
+                   if(vectorFila.elementAt(fila)[columna] == ID_SITIO_UNO){
+                       sitioUno.setCoordenadas(fila-1, columna);
+                   }
+                   else if(vectorFila.elementAt(fila)[columna] == ID_SITIO_DOS){
+                       sitioDos.setCoordenadas(fila-1, columna);
+                   }
+               }
                else 
                    matrizPenalizaciones[fila-1][columna]=vectorFila.elementAt(fila)[columna];
            }
        }
-       //imprimirMatriz();
     } 
 
     public boolean estaDentroDeMatriz(int fila,int columna){        
@@ -175,13 +211,13 @@ public class Matriz implements IdObjetos{
     }
     
     public boolean esSitioUno(int fila,int columna){        
-         if(matriz[fila][columna]==ID_SITIO_UNO)
+         if(matriz[fila][columna]==ID_SITIO_UNO || matriz[fila][columna]==ID_SITIO_UNO_CON_ROBOT)
            return true;
         return false;
     }
     
     public boolean esSitioDos(int fila,int columna){        
-         if(matriz[fila][columna]==ID_SITIO_DOS)
+         if(matriz[fila][columna]==ID_SITIO_DOS || matriz[fila][columna]==ID_SITIO_DOS_CON_ROBOT)
            return true;
         return false;
     } 
@@ -226,26 +262,33 @@ public class Matriz implements IdObjetos{
      */
     public int moverDeA(int deFila, int deColumna, int aFila,int aColumna){
         if(esObjetoUno(aFila, aColumna)){
+             int valorACorrer=matriz[deFila][deColumna];
              actualizarCasilla(deFila,deColumna, ID_VACIA);
-             actualizarCasilla(aFila,aColumna, ID_ROBOT);
-             if((getCargaRobot()!= pesoTotal)&&(retornarCoordenadaDe(ID_SITIO_UNO)==null))
+             actualizarCasilla(aFila,aColumna, valorACorrer);
+             robot.setCarga(pesoObjetoUno);
+             if(retornarCoordenadaDe(ID_SITIO_UNO)==null)
                  actualizarCasilla(sitioUno.getFila(), sitioUno.getColumna(), ID_SITIO_UNO);
              return calcularCostoMovimiento(aFila, aColumna);
          }                     
 
          if(esObjetoDos(aFila, aColumna)){
+             int valorACorrer=matriz[deFila][deColumna];
              actualizarCasilla(deFila,deColumna,ID_VACIA);
-             actualizarCasilla(aFila, aColumna,ID_ROBOT);
-             if((getCargaRobot()!=pesoTotal)&&(retornarCoordenadaDe(ID_SITIO_DOS)==null))
+             actualizarCasilla(aFila, aColumna,valorACorrer);
+             robot.setCarga(pesoObjetoDos);
+             if(retornarCoordenadaDe(ID_SITIO_DOS)==null)
                  actualizarCasilla(sitioDos.getFila(),sitioDos.getColumna(),ID_SITIO_DOS);
              return calcularCostoMovimiento(aFila, aColumna);
          }
 
          if(esSitioUno(aFila,aColumna)){
+             int valorACorrer=matriz[deFila][deColumna];
              this.sitioUno.setCoordenadas(aFila, aColumna);
              actualizarCasilla(deFila,deColumna,ID_VACIA);
              if(retornarCoordenadaDe(ID_OBJETO_UNO)==null)
-                 actualizarCasilla(aFila,aColumna,ID_ROBOT);                         
+                 actualizarCasilla(aFila,aColumna,valorACorrer);
+             else 
+                 actualizarCasilla(aFila, aColumna,ID_SITIO_UNO_CON_ROBOT);
              return calcularCostoMovimiento(aFila, aColumna);
          }
          
@@ -253,16 +296,19 @@ public class Matriz implements IdObjetos{
              this.sitioDos.setCoordenadas(aFila, aColumna);
              actualizarCasilla(deFila,deColumna,ID_VACIA);
              if(retornarCoordenadaDe(ID_OBJETO_DOS)==null)
-                 actualizarCasilla(aFila, aColumna,ID_ROBOT);                         
+                 actualizarCasilla(aFila, aColumna,ID_ROBOT);
+             else
+                 actualizarCasilla(aFila, aColumna, ID_SITIO_DOS_CON_ROBOT);
              return calcularCostoMovimiento(aFila, aColumna);
          }
          int valorACorrer=matriz[deFila][deColumna];
-         actualizarCasilla(deFila,deColumna,ID_VACIA);
+         actualizarCasilla(deFila,deColumna, ID_VACIA);
          actualizarCasilla(aFila, aColumna,valorACorrer);
          return calcularCostoMovimiento(aFila, aColumna);
    }
     
-    public int calcularCostoMovimiento(int aFila,int aColumna){
+    
+    public int calcularCostoMovimiento(int aFila,int aColumna){ 
        //Verificar si el robot ha cargado algún objeto para sumarlo al costo
        //Si solo ha cargado el ObjetoUno pero no la ha puesto en su sitio.
        if((retornarCoordenadaDe(ID_OBJETO_UNO)==null)
@@ -338,12 +384,24 @@ public class Matriz implements IdObjetos{
      * @param idObjeto Nombre que identifica al objeto.
      * @return 
      */
-    public int[] retornarCoordenadaDe(int idObjeto)
-    { 
-       int[] posicion=null;
+    public int[] retornarCoordenadaDe(int idObjeto){ 
+        int[] posicion=null;
         for(int i=0;i<dimension;i++){
             for(int j=0;j<dimension;j++){
                if(matriz[i][j]==idObjeto){
+                   posicion=new int[2];
+                   posicion[0]=i;
+                   posicion[1]=j;                   
+                   return posicion;
+               }else if((idObjeto == ID_ROBOT || idObjeto == ID_SITIO_UNO )
+                       && matriz[i][j]==ID_SITIO_UNO_CON_ROBOT){
+                   posicion=new int[2];
+                   posicion[0]=i;
+                   posicion[1]=j;
+                   
+                   return posicion;
+               }else if((idObjeto == ID_ROBOT || idObjeto == ID_SITIO_DOS )
+                       && matriz[i][j]==ID_SITIO_DOS_CON_ROBOT){
                    posicion=new int[2];
                    posicion[0]=i;
                    posicion[1]=j;

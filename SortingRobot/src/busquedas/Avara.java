@@ -20,7 +20,6 @@ import busquedas.comparadores.ComparadorAvara;
 import java.util.PriorityQueue;
 import java.util.Vector;
 import sortingrobot.Nodo;
-import sortingrobot.Operador;
 import sortingrobot.Problema;
 
 public class Avara extends Algoritmo{
@@ -45,7 +44,6 @@ public class Avara extends Algoritmo{
                  construirSolucion(nodo);
                  profundidadDelArbol=nodo.getProfundidad();
                  imprimirVectorSolucion();
-                 nodo.imprimirDatosNodo();
                  return rutaSolucion;
              }
              Vector<Nodo> nodosHijos=expandirNodo(nodo);

@@ -30,6 +30,10 @@ public class Problema implements IdObjetos{
         this.estadoInicial=estado;
         pesoObjetoUno = estadoInicial.getMatriz().getPesoObjetoUno();
         pesoObjetoDos = estadoInicial.getMatriz().getPesoObjetoDos();
+        filaSitioUno = estadoInicial.getMatriz().getSitioUno().getFila();
+        columnaSitioUno = estadoInicial.getMatriz().getSitioUno().getColumna();
+        filaSitioDos = estadoInicial.getMatriz().getSitioDos().getFila();
+        columnaSitioDos = estadoInicial.getMatriz().getSitioDos().getColumna();        
         matrizPenalizaciones = estadoInicial.getMatriz().getMatrizPenalizaciones();
     }
 
@@ -37,16 +41,14 @@ public class Problema implements IdObjetos{
         return this.estadoInicial;
     }
 
-    public Vector<OperadorEstado> funcionSucesor(Estado estadoInicial){ 
+    public Vector<OperadorEstado> funcionSucesor(Estado nodoPadre){ 
         Vector<OperadorEstado> retorno=new Vector();
         Vector<Operador> todosLosMovimientosPosibles=generarOperadores();
         
         for(int i=0;i<todosLosMovimientosPosibles.size();i++){
-            Matriz referenciada=estadoInicial.getMatriz();
+            Matriz referenciada=nodoPadre.getMatriz();
             Matriz nueva=new Matriz();
             nueva.setSortingRobot(referenciada.getSortingRobot());
-            nueva.setCoordenadasSitioUno(filaSitioUno, columnaSitioUno);
-            nueva.setCoordenadasSitioDos(filaSitioDos, columnaSitioDos);
             nueva.setMatrizPenalizaciones(matrizPenalizaciones);
             nueva.setPesoObjetoUno(pesoObjetoUno);
             nueva.setPesoObjetoDos(pesoObjetoDos);
@@ -58,23 +60,18 @@ public class Problema implements IdObjetos{
             }            
             nueva.setDimension(dimension);
             nueva.setMatriz(matrizNueva);
+            nueva.setCoordenadasSitioUno(filaSitioUno, columnaSitioUno);
+            nueva.setCoordenadasSitioDos(filaSitioDos, columnaSitioDos);
             Estado estadoPrueba=new Estado(nueva);
 
             if( estadoPrueba.verificarMovimientoValido(todosLosMovimientosPosibles.elementAt(i))){                
                 Operador operador=todosLosMovimientosPosibles.elementAt(i);
                 estadoPrueba.moverRobot(operador);
+                estadoPrueba.getMatriz().verificarSitios();
                 OperadorEstado pareja=new OperadorEstado(operador,estadoPrueba);
                 retorno.add(pareja);
                 estadoPrueba=null; 
                 carga = nueva.getSortingRobot().getCarga();
-                if(nueva.getSitioUno().getFila()!=0)
-                    filaSitioUno = nueva.getSitioUno().getFila();
-                if(nueva.getSitioUno().getColumna()!=0)
-                    columnaSitioUno = nueva.getSitioUno().getColumna();
-                if(nueva.getSitioDos().getFila()!=0)
-                    filaSitioUno = nueva.getSitioDos().getFila();
-                if(nueva.getSitioDos().getColumna()!=0)
-                    columnaSitioUno = nueva.getSitioDos().getColumna();
             }
         }
         return retorno;

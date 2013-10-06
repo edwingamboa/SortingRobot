@@ -21,7 +21,9 @@ public interface IdObjetos {
     final int ID_OBJETO_UNO=-2;
     final int ID_OBJETO_DOS=-3;
     final int ID_SITIO_UNO=-4;
-    final int ID_SITIO_DOS=-5; 
+    final int ID_SITIO_DOS=-5;
+    final int ID_SITIO_UNO_CON_ROBOT=-6;
+    final int ID_SITIO_DOS_CON_ROBOT=-7; 
     final int ID_CELDA_INVALIDA= Integer.MIN_VALUE;
     final int VALOR_POR_DEFECTO_CASILLAS = 1;
 }
