@@ -47,7 +47,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     //GUI
     private ImageIcon arregloDeImagenes[] = new ImageIcon[7];
     private PintarfondoCeldas tablero[][]; //Matriz de Jlabel
-    String path = "/Imagenes/0.jpg";
+    String path = "/Imagenes/fondo.jpg";
     URL url = this.getClass().getResource(path);
     private Image fondodetablero = new ImageIcon(url).getImage();
 
@@ -58,7 +58,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         bCostoUniforme.setEnabled(false);
         bAvara.setEnabled(false);
         bProfundidad.setEnabled(false);
-        atras.setEnabled(false);
+        stop.setEnabled(false);
         bPlay.setEnabled(false);
         bMostrarSolucion.setEnabled(false);
         animacionRobot.start();
@@ -72,8 +72,8 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         arregloDeImagenes[1] = new ImageIcon("src/Imagenes/robot.png");
         arregloDeImagenes[2] = new ImageIcon("src/Imagenes/objeto1.png");
         arregloDeImagenes[3] = new ImageIcon("src/Imagenes/objeto2.png");
-        arregloDeImagenes[4] = new ImageIcon("src/Imagenes/3.jpg");
-        arregloDeImagenes[5] = new ImageIcon("src/Imagenes/cajon.png");
+        arregloDeImagenes[4] = new ImageIcon("src/Imagenes/lugarobjeto1.png");
+        arregloDeImagenes[5] = new ImageIcon("src/Imagenes/lugarobjeto2.png");
         arregloDeImagenes[6] = new ImageIcon("src/Imagenes/ayuda.png");
     }
 
@@ -83,7 +83,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             nodoCaminoSeleccionado++;
             crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
             pararHilo = 1;
-            System.out.println(nodoCaminoSeleccionado + " " + (camino.size() - 1));
+            
         } else {
             pararHilo = 0;
         }
@@ -109,7 +109,8 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                         synchronized (animacionRobot) {
                             try {
                                 // System.out.println(playRobot()+" se duerme");
-
+                                stop.setEnabled(true);
+                                
                                 animacionRobot.wait();
 
                             } catch (InterruptedException ex) {
@@ -141,10 +142,17 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             for (int j = 0; j < obtenerColumnas(); j++) {
                 tablero[i][j] = new PintarfondoCeldas();
                 tablero[i][j].setImage(fondodetablero);
+                if ((_matriz.getMatrizPenalizaciones()[i][j]) == 0)
                 tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
-                if ((_matriz.getMatriz()[i][j]) > 0) {
-                    tablero[i][j].setText("" + _matriz.getMatriz()[i][j]);
+                
+                if ((_matriz.getMatriz()[i][j]) == -1)
+                tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
+                else
+                if ((_matriz.getMatrizPenalizaciones()[i][j]) > 0) {
+                    tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatrizPenalizaciones()[i][j]));
+                    tablero[i][j].setText("" + _matriz.getMatrizPenalizaciones()[i][j]);
                 }
+                
 
                 tablero[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 tablero[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
@@ -210,7 +218,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         txtNodos.setText(_algoritmo.getcantidadDeNodosExpandidos() + "");
 
         /* BOTONES */
-        atras.setEnabled(false);
+        stop.setEnabled(false);
         bPlay.setEnabled(true);
         bMostrarSolucion.setEnabled(true);
     }
@@ -242,7 +250,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
         matrizGeneral = new javax.swing.JPanel();
         controladores = new javax.swing.JPanel();
-        atras = new javax.swing.JButton();
+        stop = new javax.swing.JButton();
         bPlay = new javax.swing.JButton();
         tableroBusquedas = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
@@ -277,13 +285,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
         controladores.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)), "Controles", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        atras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/izq.png"))); // NOI18N
-        atras.setBorderPainted(false);
-        atras.setFocusPainted(false);
-        atras.setFocusable(false);
-        atras.addActionListener(new java.awt.event.ActionListener() {
+        stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/stop.png"))); // NOI18N
+        stop.setBorderPainted(false);
+        stop.setFocusPainted(false);
+        stop.setFocusable(false);
+        stop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atrasActionPerformed(evt);
+                stopActionPerformed(evt);
             }
         });
 
@@ -302,16 +310,16 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         controladoresLayout.setHorizontalGroup(
             controladoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controladoresLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(atras, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(408, Short.MAX_VALUE)
+                .addComponent(stop, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(bPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(436, Short.MAX_VALUE))
         );
         controladoresLayout.setVerticalGroup(
             controladoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(bPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(atras, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(stop, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         tableroBusquedas.setBorder(null);
@@ -658,19 +666,18 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     }//GEN-LAST:event_cargarArchivoActionPerformed
     private void bPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlayActionPerformed
         synchronized (animacionRobot) {
-            atras.setEnabled(true);
             bPlay.setEnabled(false);
             animacionRobot.notify();
         }
     }//GEN-LAST:event_bPlayActionPerformed
 
-    private void atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atrasActionPerformed
+    private void stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopActionPerformed
         nodoCaminoSeleccionado = 0;
         crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
-        atras.setEnabled(false);
+        stop.setEnabled(false);
         bPlay.setEnabled(true);
 
-    }//GEN-LAST:event_atrasActionPerformed
+    }//GEN-LAST:event_stopActionPerformed
 
     private void bMostrarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMostrarSolucionActionPerformed
         // TODO add your handling code here:
@@ -727,7 +734,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton atras;
     private javax.swing.JButton bAEstrella;
     private javax.swing.JButton bAmplitud;
     private javax.swing.JButton bAvara;
@@ -751,6 +757,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private javax.swing.JLabel labelTiempo;
     private javax.swing.JPanel matrizGeneral;
     private javax.swing.JPanel menu;
+    private javax.swing.JButton stop;
     private javax.swing.JScrollPane tableroBusquedas;
     private javax.swing.JLabel txtCosto;
     private javax.swing.JLabel txtNodos;
