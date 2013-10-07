@@ -70,11 +70,11 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
         arregloDeImagenes[0] = null;
         arregloDeImagenes[1] = new ImageIcon(this.getClass().getResource("/Imagenes/robot.png"));
-        arregloDeImagenes[2] = new ImageIcon("src/Imagenes/objeto1.png");
-        arregloDeImagenes[3] = new ImageIcon("src/Imagenes/objeto2.png");
-        arregloDeImagenes[4] = new ImageIcon("src/Imagenes/lugarobjeto1.png");
-        arregloDeImagenes[5] = new ImageIcon("src/Imagenes/lugarobjeto2.png");
-        arregloDeImagenes[6] = new ImageIcon("src/Imagenes/ayuda.png");
+        arregloDeImagenes[2] = new ImageIcon(this.getClass().getResource("/Imagenes/objeto1.png"));
+        arregloDeImagenes[3] = new ImageIcon(this.getClass().getResource("/Imagenes/objeto2.png"));
+        arregloDeImagenes[4] = new ImageIcon(this.getClass().getResource("/Imagenes/lugarobjeto1.png"));
+        arregloDeImagenes[5] = new ImageIcon(this.getClass().getResource("/Imagenes/lugarobjeto2.png"));
+        arregloDeImagenes[6] = new ImageIcon(this.getClass().getResource("/Imagenes/Ayuda.png"));
     }
 
     public Integer playRobot() {
@@ -83,7 +83,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             nodoCaminoSeleccionado++;
             crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
             pararHilo = 1;
-            
+
         } else {
             pararHilo = 0;
         }
@@ -110,7 +110,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                             try {
                                 // System.out.println(playRobot()+" se duerme");
                                 stop.setEnabled(true);
-                                
+
                                 animacionRobot.wait();
 
                             } catch (InterruptedException ex) {
@@ -142,17 +142,17 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             for (int j = 0; j < obtenerColumnas(); j++) {
                 tablero[i][j] = new PintarfondoCeldas();
                 tablero[i][j].setImage(fondodetablero);
-                if ((_matriz.getMatrizPenalizaciones()[i][j]) == 0)
-                tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
-                
-                if ((_matriz.getMatriz()[i][j]) == -1)
-                tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
-                else
-                if ((_matriz.getMatrizPenalizaciones()[i][j]) > 0) {
+                if ((_matriz.getMatrizPenalizaciones()[i][j]) == 0) {
+                    tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
+                }
+
+                if ((_matriz.getMatriz()[i][j]) == -1) {
+                    tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatriz()[i][j]));
+                } else if ((_matriz.getMatrizPenalizaciones()[i][j]) > 0) {
                     tablero[i][j].setIcon(retornarImagenDeCasillas(_matriz.getMatrizPenalizaciones()[i][j]));
                     tablero[i][j].setText("" + _matriz.getMatrizPenalizaciones()[i][j]);
                 }
-                
+
 
                 tablero[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 tablero[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
@@ -200,24 +200,23 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
     //Secuencia encargada de ejecutar cada algoritmo
     private void ejecutarAlgoritmo(Algoritmo _algoritmo) {
-        _tamanoSolucion=0;
+        _tamanoSolucion = 0;
         crearTablero(matriz);
-        labelAlgoritmo.setText("Algoritmo: " + _algoritmo.getNombre());
         Vector<String> operadoresDePareja = new Vector();
         tiempoInicio = System.currentTimeMillis();
         Vector<Nodo> respuesta = _algoritmo.aplicarAlgoritmo();
         tiempoTotal = System.currentTimeMillis() - tiempoInicio;
-
         camino = vectorSalida(respuesta);
         for (int i = 0; i < camino.size(); i++) {
             operadoresDePareja.add(camino.elementAt(i).getOperador().toStringOperador());
             _tamanoSolucion++;
         }
         this.movimientoResultado = operadoresDePareja;
+        labelAlgoritmo.setText("Algoritmo: " + _algoritmo.getNombre());
         txtProfundidad.setText(_algoritmo.getProfundidadDelArbol() + "");
         txtTiempo.setText(tiempoTotal + " milisegundos");
         txtNodos.setText(_algoritmo.getcantidadDeNodosExpandidos() + "");
-        txtCosto.setText(String.valueOf(camino.elementAt(camino.size()-1).getCostoDeRuta()));
+        txtCosto.setText(String.valueOf(camino.elementAt(camino.size() - 1).getCostoDeRuta()));
 
         /* BOTONES */
         stop.setEnabled(false);
@@ -636,20 +635,23 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             this.setVisible(false);
             JFileChooser selectorArchivo = new JFileChooser();
             selectorArchivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-            JTextArea texto = new JTextArea();
-            int opcion = selectorArchivo.showOpenDialog(texto);
-            if (opcion == JFileChooser.APPROVE_OPTION) {
-                ambienteArchivo = selectorArchivo.getSelectedFile();
-                bAmplitud.setEnabled(true);
-                bAEstrella.setEnabled(true);
-                bCostoUniforme.setEnabled(true);
-                bAvara.setEnabled(true);
-                bProfundidad.setEnabled(true);
-            }
-            if (opcion == JFileChooser.CANCEL_OPTION) {
-                JOptionPane.showMessageDialog(null, "Debe escoger un ambiente");
-            }
+            boolean salida = false;
+            do {
+                JTextArea texto = new JTextArea();
+                int opcion = selectorArchivo.showOpenDialog(texto);
+                if (opcion == JFileChooser.APPROVE_OPTION) {
+                    salida = true;
+                    ambienteArchivo = selectorArchivo.getSelectedFile();
+                    bAmplitud.setEnabled(true);
+                    bAEstrella.setEnabled(true);
+                    bCostoUniforme.setEnabled(true);
+                    bAvara.setEnabled(true);
+                    bProfundidad.setEnabled(true);
+                }
+                if (opcion == JFileChooser.CANCEL_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Debe cargar un archivo");
+                }
+            } while (!salida);
             archivo = new Archivo(ambienteArchivo);
             matriz = new Matriz(archivo.leerArchivo());
             estado = new Estado(matriz);

@@ -29,10 +29,10 @@ public class Resultados extends javax.swing.JFrame {
         initComponents();
         //imagenes
         
-        arregloDeImagenes[0] = new ImageIcon("src/Imagenes/ar.png");
-        arregloDeImagenes[1] = new ImageIcon("src/Imagenes/ab.png");
-        arregloDeImagenes[2] = new ImageIcon("src/Imagenes/izq.png");
-        arregloDeImagenes[3] = new ImageIcon("src/Imagenes/der.png");
+        arregloDeImagenes[0] = new ImageIcon(this.getClass().getResource("/Imagenes/ar.png"));
+        arregloDeImagenes[1] = new ImageIcon(this.getClass().getResource("/Imagenes/ab.png"));
+        arregloDeImagenes[2] = new ImageIcon(this.getClass().getResource("/Imagenes/izq.png"));
+        arregloDeImagenes[3] = new ImageIcon(this.getClass().getResource("/Imagenes/der.png"));
         this.ruta = ruta;
         limite = tamanoSolucion;
         obtenerFilasColumnas(limite);
