@@ -69,7 +69,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         //Cargando imagenes
 
         arregloDeImagenes[0] = null;
-        arregloDeImagenes[1] = new ImageIcon("src/Imagenes/robot.png");
+        arregloDeImagenes[1] = new ImageIcon(this.getClass().getResource("/Imagenes/robot.png"));
         arregloDeImagenes[2] = new ImageIcon("src/Imagenes/objeto1.png");
         arregloDeImagenes[3] = new ImageIcon("src/Imagenes/objeto2.png");
         arregloDeImagenes[4] = new ImageIcon("src/Imagenes/lugarobjeto1.png");

@@ -28,6 +28,7 @@ public class Resultados extends javax.swing.JFrame {
     public Resultados(Vector<String> ruta, int tamanoSolucion) {
         initComponents();
         //imagenes
+        
         arregloDeImagenes[0] = new ImageIcon("src/Imagenes/ar.png");
         arregloDeImagenes[1] = new ImageIcon("src/Imagenes/ab.png");
         arregloDeImagenes[2] = new ImageIcon("src/Imagenes/izq.png");
