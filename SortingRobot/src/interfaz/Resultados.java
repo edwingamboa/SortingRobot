@@ -28,8 +28,8 @@ public class Resultados extends javax.swing.JFrame {
     public Resultados(Vector<String> ruta, int tamanoSolucion) {
         initComponents();
         //imagenes
-        arregloDeImagenes[0] = new ImageIcon("src/Imagenes/ari.png");
-        arregloDeImagenes[1] = new ImageIcon("src/Imagenes/aba.png");
+        arregloDeImagenes[0] = new ImageIcon("src/Imagenes/ar.png");
+        arregloDeImagenes[1] = new ImageIcon("src/Imagenes/ab.png");
         arregloDeImagenes[2] = new ImageIcon("src/Imagenes/izq.png");
         arregloDeImagenes[3] = new ImageIcon("src/Imagenes/der.png");
         this.ruta = ruta;
@@ -94,7 +94,7 @@ public class Resultados extends javax.swing.JFrame {
 
         panelResultado = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout panelResultadoLayout = new javax.swing.GroupLayout(panelResultado);
         panelResultado.setLayout(panelResultadoLayout);

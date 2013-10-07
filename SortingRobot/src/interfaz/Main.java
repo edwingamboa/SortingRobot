@@ -200,6 +200,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
     //Secuencia encargada de ejecutar cada algoritmo
     private void ejecutarAlgoritmo(Algoritmo _algoritmo) {
+        _tamanoSolucion=0;
         crearTablero(matriz);
         labelAlgoritmo.setText("Algoritmo: " + _algoritmo.getNombre());
         Vector<String> operadoresDePareja = new Vector();
