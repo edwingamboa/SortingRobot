@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 /**
  *
  * @author Usuario Asus
@@ -28,7 +29,7 @@ public class Resultados extends javax.swing.JFrame {
     public Resultados(Vector<String> ruta, int tamanoSolucion) {
         initComponents();
         //imagenes
-        
+
         arregloDeImagenes[0] = new ImageIcon(this.getClass().getResource("/Imagenes/ar.png"));
         arregloDeImagenes[1] = new ImageIcon(this.getClass().getResource("/Imagenes/ab.png"));
         arregloDeImagenes[2] = new ImageIcon(this.getClass().getResource("/Imagenes/izq.png"));
@@ -40,13 +41,17 @@ public class Resultados extends javax.swing.JFrame {
         crearTablero(ruta);
     }
 
-    private void obtenerFilasColumnas(int tamano) {
+    private void obtenerFilasColumnas(float tamano) {
         if (tamano <= 10) {
             filas = 1;
-            columnas = tamano;
+            columnas = (int) tamano;
         } else {
             columnas = 10;
-            filas = (int) Math.ceil(tamano / 10);
+            float ceil = tamano / 10;
+            System.out.println("este es tamano:" + tamano +" y al dividirlo da:"
+                    + ceil + "y este es el MALDITO ceil: "+ Math.ceil(ceil));
+            
+            filas = (int) Math.ceil(ceil);
         }
     }
 
@@ -68,9 +73,14 @@ public class Resultados extends javax.swing.JFrame {
         panelResultado.removeAll();
         panelResultado.setLayout(new GridLayout(filas, columnas));
         int x = 0;
+        System.out.println("este es el limite: " + limite);
+        System.out.println("esta es la fila:" + filas + " estas son las columnas"
+                + ":" + columnas);
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 if (x < limite) {
+
+                    System.out.println("Aqui va:" + x);
                     movimientos[i][j] = new PintarfondoCeldas();
                     movimientos[i][j].setIcon(retornarMovimiento(ruta.elementAt(x)));
                     movimientos[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

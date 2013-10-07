@@ -31,7 +31,7 @@
               <Component id="menu" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="matrizGeneral" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -72,15 +72,15 @@
                   <Component id="tableroBusquedas" pref="0" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="380" max="-2" attributes="0"/>
-                  <Component id="labelAlgoritmo" min="-2" pref="206" max="-2" attributes="0"/>
-                  <EmptySpace min="380" max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                  <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="84" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
-                  <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="labelAlgoritmo" min="-2" pref="206" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="366" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -90,7 +90,7 @@
                   <Component id="labelAlgoritmo" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="8" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="tableroBusquedas" min="-2" pref="495" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="controladores" min="-2" max="-2" attributes="0"/>
@@ -117,7 +117,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="stop" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="bStop" min="-2" pref="55" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="bPlay" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -127,12 +127,12 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="bPlay" alignment="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="stop" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
+                  <Component id="bStop" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="stop">
+            <Component class="javax.swing.JButton" name="bStop">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagenes/stop.png"/>
@@ -142,7 +142,7 @@
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bStopActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="bPlay">
@@ -196,21 +196,21 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                       <Component id="labelNodos" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="txtNodos" min="-2" pref="60" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtNodos" min="-2" pref="68" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelProfundidad" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtProfundidad" min="-2" pref="60" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="txtProfundidad" min="-2" pref="68" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelTiempo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtTiempo" min="-2" pref="60" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="txtTiempo" min="-2" pref="68" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelCosto" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="txtCosto" min="-2" pref="60" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtCosto" min="-2" pref="68" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -218,40 +218,22 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="txtCosto" alignment="1" min="-2" pref="17" max="-2" attributes="0"/>
-                          <Component id="labelTiempo" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTiempo" alignment="1" min="-2" pref="17" max="-2" attributes="0"/>
-                          <Component id="labelCosto" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelProfundidad" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtProfundidad" alignment="1" min="-2" pref="17" max="-2" attributes="0"/>
-                          <Component id="txtNodos" alignment="1" min="-2" pref="17" max="-2" attributes="0"/>
-                          <Component id="labelNodos" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="labelCosto" alignment="1" max="32767" attributes="0"/>
+                          <Component id="txtNodos" max="32767" attributes="0"/>
+                          <Component id="txtProfundidad" max="32767" attributes="0"/>
+                          <Component id="txtCosto" max="32767" attributes="0"/>
+                          <Component id="txtTiempo" max="32767" attributes="0"/>
+                          <Component id="labelTiempo" alignment="1" max="32767" attributes="0"/>
+                          <Component id="labelProfundidad" alignment="1" max="32767" attributes="0"/>
+                          <Component id="labelNodos" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="txtCosto">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                    <EtchetBorder/>
-                  </Border>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="txtTiempo">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                    <EtchetBorder/>
-                  </Border>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="labelCosto">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Costo total:"/>
@@ -262,33 +244,23 @@
                 <Property name="text" type="java.lang.String" value="Tiempo de Computo: "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="txtProfundidad">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                    <EtchetBorder/>
-                  </Border>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="labelProfundidad">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Profundidad:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="txtNodos">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                    <EtchetBorder/>
-                  </Border>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="labelNodos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nodos Expandidos:"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtTiempo">
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtCosto">
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtProfundidad">
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtNodos">
             </Component>
           </SubComponents>
         </Container>

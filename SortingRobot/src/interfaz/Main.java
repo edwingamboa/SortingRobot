@@ -37,7 +37,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private Estado estado;
     private Problema problema;
     private Vector<Nodo> camino;
-    private int nodoCaminoSeleccionado = -1;
+    private int nodoCaminoSeleccionado = 0;
     private long tiempoInicio, tiempoTotal;
     private Vector<String> movimientoResultado;
     private int _filas; //Numero de filas de la matriz
@@ -53,12 +53,16 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
     public Main() {
         initComponents();
+        txtTiempo.setEditable(false);
+        txtCosto.setEditable(false);
+        txtNodos.setEditable(false);
+        txtProfundidad.setEditable(false);
         bAmplitud.setEnabled(false);
         bAEstrella.setEnabled(false);
         bCostoUniforme.setEnabled(false);
         bAvara.setEnabled(false);
         bProfundidad.setEnabled(false);
-        stop.setEnabled(false);
+        bStop.setEnabled(false);
         bPlay.setEnabled(false);
         bMostrarSolucion.setEnabled(false);
         animacionRobot.start();
@@ -77,26 +81,33 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         arregloDeImagenes[6] = new ImageIcon(this.getClass().getResource("/Imagenes/Ayuda.png"));
     }
 
+    public void reiniciar() {
+        txtCosto.setText("");
+        txtNodos.setText("");
+        txtProfundidad.setText("");
+        txtTiempo.setText("");
+        labelAlgoritmo.setText("");
+        bPlay.setEnabled(false);
+        bStop.setEnabled(false);
+    }
+
     public Integer playRobot() {
         //  System.out.println(nodoCaminoSeleccionado+" y "+(camino.size() - 1));
-        if (nodoCaminoSeleccionado < (camino.size() - 1)) {
-            nodoCaminoSeleccionado++;
+        if (nodoCaminoSeleccionado < camino.size()) {
             crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
+            nodoCaminoSeleccionado++;
             pararHilo = 1;
-
-        } else {
+        }
+        else {
             pararHilo = 0;
         }
-
         return pararHilo;
-
     }
     //hilo animacionRobot
     private Thread animacionRobot = new Thread(new Runnable() {
         public void run() {
             while (true) {
                 if (pararHilo != 2) {
-
                     if (playRobot() == 1) {
                         synchronized (animacionRobot) {
                             try {
@@ -109,22 +120,18 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                         synchronized (animacionRobot) {
                             try {
                                 // System.out.println(playRobot()+" se duerme");
-                                stop.setEnabled(true);
-
+                                bStop.setEnabled(true);
                                 animacionRobot.wait();
-
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     }
-
                 } else {
                     synchronized (animacionRobot) {
                         try {
                             // System.out.println(" se duerme");
                             animacionRobot.wait();
-
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -201,6 +208,9 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     //Secuencia encargada de ejecutar cada algoritmo
     private void ejecutarAlgoritmo(Algoritmo _algoritmo) {
         _tamanoSolucion = 0;
+
+        reiniciar();
+
         crearTablero(matriz);
         Vector<String> operadoresDePareja = new Vector();
         tiempoInicio = System.currentTimeMillis();
@@ -214,12 +224,12 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         this.movimientoResultado = operadoresDePareja;
         labelAlgoritmo.setText("Algoritmo: " + _algoritmo.getNombre());
         txtProfundidad.setText(_algoritmo.getProfundidadDelArbol() + "");
-        txtTiempo.setText(tiempoTotal + " milisegundos");
+        txtTiempo.setText(tiempoTotal + " ms");
         txtNodos.setText(_algoritmo.getcantidadDeNodosExpandidos() + "");
         txtCosto.setText(String.valueOf(camino.elementAt(camino.size() - 1).getCostoDeRuta()));
 
         /* BOTONES */
-        stop.setEnabled(false);
+        bStop.setEnabled(false);
         bPlay.setEnabled(true);
         bMostrarSolucion.setEnabled(true);
     }
@@ -251,20 +261,20 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
         matrizGeneral = new javax.swing.JPanel();
         controladores = new javax.swing.JPanel();
-        stop = new javax.swing.JButton();
+        bStop = new javax.swing.JButton();
         bPlay = new javax.swing.JButton();
         tableroBusquedas = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         labelAlgoritmo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        txtCosto = new javax.swing.JLabel();
-        txtTiempo = new javax.swing.JLabel();
         labelCosto = new javax.swing.JLabel();
         labelTiempo = new javax.swing.JLabel();
-        txtProfundidad = new javax.swing.JLabel();
         labelProfundidad = new javax.swing.JLabel();
-        txtNodos = new javax.swing.JLabel();
         labelNodos = new javax.swing.JLabel();
+        txtTiempo = new javax.swing.JTextField();
+        txtCosto = new javax.swing.JTextField();
+        txtProfundidad = new javax.swing.JTextField();
+        txtNodos = new javax.swing.JTextField();
         menu = new javax.swing.JPanel();
         cargarArchivo = new javax.swing.JButton();
         busquedas = new javax.swing.JPanel();
@@ -286,13 +296,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
         controladores.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)), "Controles", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/stop.png"))); // NOI18N
-        stop.setBorderPainted(false);
-        stop.setFocusPainted(false);
-        stop.setFocusable(false);
-        stop.addActionListener(new java.awt.event.ActionListener() {
+        bStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/stop.png"))); // NOI18N
+        bStop.setBorderPainted(false);
+        bStop.setFocusPainted(false);
+        bStop.setFocusable(false);
+        bStop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stopActionPerformed(evt);
+                bStopActionPerformed(evt);
             }
         });
 
@@ -311,16 +321,16 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         controladoresLayout.setHorizontalGroup(
             controladoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controladoresLayout.createSequentialGroup()
-                .addContainerGap(408, Short.MAX_VALUE)
-                .addComponent(stop, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bStop, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(bPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(436, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         controladoresLayout.setVerticalGroup(
             controladoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(bPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(stop, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(bStop, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         tableroBusquedas.setBorder(null);
@@ -338,19 +348,11 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
         tableroBusquedas.setViewportView(jPanel1);
 
-        txtCosto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        txtTiempo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         labelCosto.setText("Costo total:");
 
         labelTiempo.setText("Tiempo de Computo: ");
 
-        txtProfundidad.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         labelProfundidad.setText("Profundidad:");
-
-        txtNodos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         labelNodos.setText("Nodos Expandidos:");
 
@@ -361,36 +363,36 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(labelNodos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNodos, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNodos, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelProfundidad)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtProfundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtProfundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelTiempo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelCosto)
-                .addGap(0, 0, 0)
-                .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelTiempo)
-                    .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCosto)
-                    .addComponent(labelProfundidad)
-                    .addComponent(txtProfundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNodos, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelNodos))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(labelCosto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtNodos)
+                    .addComponent(txtProfundidad)
+                    .addComponent(txtCosto)
+                    .addComponent(txtTiempo)
+                    .addComponent(labelTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelProfundidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelNodos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout matrizGeneralLayout = new javax.swing.GroupLayout(matrizGeneral);
@@ -403,13 +405,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                 .addComponent(tableroBusquedas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
             .addGroup(matrizGeneralLayout.createSequentialGroup()
-                .addGap(380, 380, 380)
-                .addComponent(labelAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, matrizGeneralLayout.createSequentialGroup()
-                .addGap(115, 115, 115)
+                .addGap(103, 103, 103)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
+                .addContainerGap(84, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, matrizGeneralLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(366, 366, 366))
         );
         matrizGeneralLayout.setVerticalGroup(
             matrizGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,7 +419,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                 .addComponent(labelAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tableroBusquedas, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controladores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -607,31 +609,72 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
 
     private void bAmplitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAmplitudActionPerformed
         // TODO add your handling code here:
+        bAEstrella.setEnabled(false);
+        bCostoUniforme.setEnabled(false);
+        bAvara.setEnabled(false);
+        bProfundidad.setEnabled(false);
         ejecutarAlgoritmo(new Amplitud(problema));
+        bAEstrella.setEnabled(true);
+        bCostoUniforme.setEnabled(true);
+        bAvara.setEnabled(true);
+        bProfundidad.setEnabled(true);
     }//GEN-LAST:event_bAmplitudActionPerformed
 
     private void bProfundidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProfundidadActionPerformed
         // TODO add your handling code here:
+        bAEstrella.setEnabled(false);
+        bCostoUniforme.setEnabled(false);
+        bAvara.setEnabled(false);
+        bAmplitud.setEnabled(false);
         ejecutarAlgoritmo(new Profundidad(problema));
+        bAEstrella.setEnabled(true);
+        bCostoUniforme.setEnabled(true);
+        bAvara.setEnabled(true);
+        bAmplitud.setEnabled(true);
     }//GEN-LAST:event_bProfundidadActionPerformed
 
     private void bCostoUniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCostoUniformeActionPerformed
         // TODO add your handling code here:
+        bAEstrella.setEnabled(false);
+        bProfundidad.setEnabled(false);
+        bAvara.setEnabled(false);
+        bAmplitud.setEnabled(false);
         ejecutarAlgoritmo(new CostoUniforme(problema));
+        bAEstrella.setEnabled(true);
+        bProfundidad.setEnabled(true);
+        bAvara.setEnabled(true);
+        bAmplitud.setEnabled(true);
     }//GEN-LAST:event_bCostoUniformeActionPerformed
 
     private void bAEstrellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAEstrellaActionPerformed
         // TODO add your handling code here:
+        bCostoUniforme.setEnabled(false);
+        bProfundidad.setEnabled(false);
+        bAvara.setEnabled(false);
+        bAmplitud.setEnabled(false);
         ejecutarAlgoritmo(new AEstrella(problema));
+        bCostoUniforme.setEnabled(true);
+        bProfundidad.setEnabled(true);
+        bAvara.setEnabled(true);
+        bAmplitud.setEnabled(true);
     }//GEN-LAST:event_bAEstrellaActionPerformed
 
     private void bAvaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAvaraActionPerformed
         // TODO add your handling code here:
+        bCostoUniforme.setEnabled(false);
+        bProfundidad.setEnabled(false);
+        bAEstrella.setEnabled(false);
+        bAmplitud.setEnabled(false);
         ejecutarAlgoritmo(new Avara(problema));
+        bCostoUniforme.setEnabled(true);
+        bProfundidad.setEnabled(true);
+        bAEstrella.setEnabled(true);
+        bAmplitud.setEnabled(true);
     }//GEN-LAST:event_bAvaraActionPerformed
     private void cargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarArchivoActionPerformed
         // TODO add your handling code here:
         try {
+            reiniciar();
             this.setVisible(false);
             JFileChooser selectorArchivo = new JFileChooser();
             selectorArchivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -675,16 +718,17 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         }
     }//GEN-LAST:event_bPlayActionPerformed
 
-    private void stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopActionPerformed
+    private void bStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStopActionPerformed
         nodoCaminoSeleccionado = 0;
-        crearTablero(camino.elementAt(nodoCaminoSeleccionado).getEstado().getMatriz());
-        stop.setEnabled(false);
+        crearTablero(matriz);
+        bStop.setEnabled(false);
         bPlay.setEnabled(true);
 
-    }//GEN-LAST:event_stopActionPerformed
+    }//GEN-LAST:event_bStopActionPerformed
 
     private void bMostrarSolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMostrarSolucionActionPerformed
         // TODO add your handling code here:
+        System.out.println(_tamanoSolucion);
         Resultados resultado = new Resultados(movimientoResultado, _tamanoSolucion);
         resultado.setVisible(true);
     }//GEN-LAST:event_bMostrarSolucionActionPerformed
@@ -747,6 +791,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private javax.swing.JButton bMostrarSolucion;
     private javax.swing.JButton bPlay;
     private javax.swing.JButton bProfundidad;
+    private javax.swing.JButton bStop;
     private javax.swing.JPanel busquedas;
     private javax.swing.JButton cargarArchivo;
     private javax.swing.JPanel controladores;
@@ -761,11 +806,10 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private javax.swing.JLabel labelTiempo;
     private javax.swing.JPanel matrizGeneral;
     private javax.swing.JPanel menu;
-    private javax.swing.JButton stop;
     private javax.swing.JScrollPane tableroBusquedas;
-    private javax.swing.JLabel txtCosto;
-    private javax.swing.JLabel txtNodos;
-    private javax.swing.JLabel txtProfundidad;
-    private javax.swing.JLabel txtTiempo;
+    private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtNodos;
+    private javax.swing.JTextField txtProfundidad;
+    private javax.swing.JTextField txtTiempo;
     // End of variables declaration//GEN-END:variables
 }
