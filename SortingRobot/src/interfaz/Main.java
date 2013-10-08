@@ -44,6 +44,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private int _columnas; //Numero de columnas de la matriz
     private int _tamanoSolucion = 0;
     private int pararHilo = 2;
+    private int numeroAlgoritmo=0;
     //GUI
     private ImageIcon arregloDeImagenes[] = new ImageIcon[7];
     private PintarfondoCeldas tablero[][]; //Matriz de Jlabel
@@ -65,7 +66,9 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         bStop.setEnabled(false);
         bPlay.setEnabled(false);
         bMostrarSolucion.setEnabled(false);
+        barraAlgoritmo.setVisible(false);
         animacionRobot.start();
+        hiloAlgoritmo.start();
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
@@ -82,6 +85,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     }
 
     public void reiniciar() {
+        numeroAlgoritmo=0;
         txtCosto.setText("");
         txtNodos.setText("");
         txtProfundidad.setText("");
@@ -108,6 +112,12 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         public void run() {
             while (true) {
                 if (pararHilo != 2) {
+                    bCostoUniforme.setEnabled(false);
+        bProfundidad.setEnabled(false);
+        bAEstrella.setEnabled(false);
+        bAmplitud.setEnabled(false);
+        bAvara.setEnabled(false);
+        cargarArchivo.setEnabled(false);
                     if (playRobot() == 1) {
                         synchronized (animacionRobot) {
                             try {
@@ -120,6 +130,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                         synchronized (animacionRobot) {
                             try {
                                 // System.out.println(playRobot()+" se duerme");
+                                
+        bCostoUniforme.setEnabled(true);
+        bProfundidad.setEnabled(true);
+        bAEstrella.setEnabled(true);
+        bAmplitud.setEnabled(true);
+        bAvara.setEnabled(true);
+        cargarArchivo.setEnabled(true);
                                 bStop.setEnabled(true);
                                 animacionRobot.wait();
                             } catch (InterruptedException ex) {
@@ -285,6 +302,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         bAEstrella = new javax.swing.JButton();
+        barraAlgoritmo = new javax.swing.JProgressBar();
         bMostrarSolucion = new javax.swing.JButton();
         bAyuda = new javax.swing.JButton();
         bInformacion = new javax.swing.JButton();
@@ -407,7 +425,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             .addGroup(matrizGeneralLayout.createSequentialGroup()
                 .addGap(103, 103, 103)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, matrizGeneralLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -482,7 +500,6 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             .addGroup(busquedasLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(busquedasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bCostoUniforme)
                     .addGroup(busquedasLayout.createSequentialGroup()
                         .addGroup(busquedasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, busquedasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -500,8 +517,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                                 .addGap(39, 39, 39)
                                 .addGroup(busquedasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(bAvara, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bAEstrella, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(bAEstrella, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, busquedasLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(barraAlgoritmo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(1, 1, 1))))
+                    .addComponent(bCostoUniforme))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         busquedasLayout.setVerticalGroup(
             busquedasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,9 +539,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
                 .addGroup(busquedasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bProfundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bAvara, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bCostoUniforme, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(busquedasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(busquedasLayout.createSequentialGroup()
+                        .addComponent(bCostoUniforme, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(barraAlgoritmo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         bMostrarSolucion.setText("Mostrar Solucion");
@@ -607,22 +633,173 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bAmplitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAmplitudActionPerformed
-        // TODO add your handling code here:
-        bAEstrella.setEnabled(false);
+    private Thread hiloAlgoritmo = new Thread(new Runnable() {
+        public void run() {
+            while (true) {
+                
+                
+                if (numeroAlgoritmo!=0)
+                {
+                    barraAlgoritmo.setVisible(true);
+                    barraAlgoritmo.setIndeterminate(true);
+                
+                if(numeroAlgoritmo==1)
+                {
+                    
+                    bAEstrella.setEnabled(false);
         bCostoUniforme.setEnabled(false);
         bAvara.setEnabled(false);
         bProfundidad.setEnabled(false);
+        cargarArchivo.setEnabled(false);
+        bMostrarSolucion.setEnabled(false);
         ejecutarAlgoritmo(new Amplitud(problema));
         bAEstrella.setEnabled(true);
         bCostoUniforme.setEnabled(true);
         bAvara.setEnabled(true);
         bProfundidad.setEnabled(true);
+        cargarArchivo.setEnabled(true);
+        bMostrarSolucion.setEnabled(true);
+        
+        
+                }else           
+                if(numeroAlgoritmo==2)
+                {
+                
+                    
+        bAEstrella.setEnabled(false);
+        bCostoUniforme.setEnabled(false);
+        bAvara.setEnabled(false);
+        bAmplitud.setEnabled(false);
+        cargarArchivo.setEnabled(false);
+        bMostrarSolucion.setEnabled(false);
+        ejecutarAlgoritmo(new Profundidad(problema));
+        bAEstrella.setEnabled(true);
+        bCostoUniforme.setEnabled(true);
+        bAvara.setEnabled(true);
+        bAmplitud.setEnabled(true);
+        cargarArchivo.setEnabled(true);
+        bMostrarSolucion.setEnabled(true);
+                    
+                    
+                }else
+                    if(numeroAlgoritmo==3)
+                    {
+                    
+                        
+                           
+        bAEstrella.setEnabled(false);
+        bProfundidad.setEnabled(false);
+        bAvara.setEnabled(false);
+        bAmplitud.setEnabled(false);
+        cargarArchivo.setEnabled(false);
+        bMostrarSolucion.setEnabled(false);
+        ejecutarAlgoritmo(new CostoUniforme(problema));
+        bAEstrella.setEnabled(true);
+        bProfundidad.setEnabled(true);
+        bAvara.setEnabled(true);
+        bAmplitud.setEnabled(true);
+        cargarArchivo.setEnabled(true);
+        bMostrarSolucion.setEnabled(true);
+                        
+                        
+                    }else
+                        if(numeroAlgoritmo==4)
+                        {
+                        
+                                
+        bCostoUniforme.setEnabled(false);
+        bProfundidad.setEnabled(false);
+        bAvara.setEnabled(false);
+        bAmplitud.setEnabled(false);
+        cargarArchivo.setEnabled(false);
+        bMostrarSolucion.setEnabled(false);
+        ejecutarAlgoritmo(new AEstrella(problema));
+        bCostoUniforme.setEnabled(true);
+        bProfundidad.setEnabled(true);
+        bAvara.setEnabled(true);
+        bAmplitud.setEnabled(true);
+        cargarArchivo.setEnabled(true);
+        bMostrarSolucion.setEnabled(true);
+                            
+                            
+                        }else 
+                            if(numeroAlgoritmo==5)
+                            {
+                                
+                                
+        bCostoUniforme.setEnabled(false);
+        bProfundidad.setEnabled(false);
+        bAEstrella.setEnabled(false);
+        bAmplitud.setEnabled(false);
+        cargarArchivo.setEnabled(false);
+        bMostrarSolucion.setEnabled(false);
+        ejecutarAlgoritmo(new Avara(problema));
+        bCostoUniforme.setEnabled(true);
+        bProfundidad.setEnabled(true);
+        bAEstrella.setEnabled(true);
+        bAmplitud.setEnabled(true);
+        cargarArchivo.setEnabled(true);
+        bMostrarSolucion.setEnabled(true);
+        
+        
+                            
+                            }
+                
+                
+                }
+                
+                synchronized(hiloAlgoritmo)
+        {
+                        try {
+                            barraAlgoritmo.setVisible(false);
+                            barraAlgoritmo.setIndeterminate(false);
+                            System.out.println("dormir hilo");
+                            hiloAlgoritmo.wait();
+                            
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+        }
+                
+                
+               
+            }
+        }
+    });
+    
+    
+    
+    private void bAmplitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAmplitudActionPerformed
+        // TODO add your handling code here:
+        numeroAlgoritmo=1;
+        
+        synchronized(hiloAlgoritmo)
+        {
+        hiloAlgoritmo.notify();
+        
+        }
+        
+//        bAEstrella.setEnabled(false);
+//        bCostoUniforme.setEnabled(false);
+//        bAvara.setEnabled(false);
+//        bProfundidad.setEnabled(false);
+//        ejecutarAlgoritmo(new Amplitud(problema));
+//        bAEstrella.setEnabled(true);
+//        bCostoUniforme.setEnabled(true);
+//        bAvara.setEnabled(true);
+//        bProfundidad.setEnabled(true);
     }//GEN-LAST:event_bAmplitudActionPerformed
 
     private void bProfundidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bProfundidadActionPerformed
         // TODO add your handling code here:
-        bAEstrella.setEnabled(false);
+        numeroAlgoritmo=2;
+        synchronized(hiloAlgoritmo)
+        {
+        hiloAlgoritmo.notify();
+        
+        }
+        
+        /*bAEstrella.setEnabled(false);
         bCostoUniforme.setEnabled(false);
         bAvara.setEnabled(false);
         bAmplitud.setEnabled(false);
@@ -630,12 +807,20 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         bAEstrella.setEnabled(true);
         bCostoUniforme.setEnabled(true);
         bAvara.setEnabled(true);
-        bAmplitud.setEnabled(true);
+        bAmplitud.setEnabled(true);*/
     }//GEN-LAST:event_bProfundidadActionPerformed
 
     private void bCostoUniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCostoUniformeActionPerformed
         // TODO add your handling code here:
-        bAEstrella.setEnabled(false);
+        numeroAlgoritmo=3;
+        
+        synchronized(hiloAlgoritmo)
+        {
+        hiloAlgoritmo.notify();
+        
+        }
+        
+       /* bAEstrella.setEnabled(false);
         bProfundidad.setEnabled(false);
         bAvara.setEnabled(false);
         bAmplitud.setEnabled(false);
@@ -643,12 +828,20 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         bAEstrella.setEnabled(true);
         bProfundidad.setEnabled(true);
         bAvara.setEnabled(true);
-        bAmplitud.setEnabled(true);
+        bAmplitud.setEnabled(true);*/
     }//GEN-LAST:event_bCostoUniformeActionPerformed
 
     private void bAEstrellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAEstrellaActionPerformed
         // TODO add your handling code here:
-        bCostoUniforme.setEnabled(false);
+        numeroAlgoritmo=4;
+        
+        synchronized(hiloAlgoritmo)
+        {
+        hiloAlgoritmo.notify();
+        
+        }
+        
+        /*bCostoUniforme.setEnabled(false);
         bProfundidad.setEnabled(false);
         bAvara.setEnabled(false);
         bAmplitud.setEnabled(false);
@@ -656,12 +849,13 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         bCostoUniforme.setEnabled(true);
         bProfundidad.setEnabled(true);
         bAvara.setEnabled(true);
-        bAmplitud.setEnabled(true);
+        bAmplitud.setEnabled(true);*/
     }//GEN-LAST:event_bAEstrellaActionPerformed
 
     private void bAvaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAvaraActionPerformed
         // TODO add your handling code here:
-        bCostoUniforme.setEnabled(false);
+       numeroAlgoritmo=5;
+         /*bCostoUniforme.setEnabled(false);
         bProfundidad.setEnabled(false);
         bAEstrella.setEnabled(false);
         bAmplitud.setEnabled(false);
@@ -669,7 +863,14 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
         bCostoUniforme.setEnabled(true);
         bProfundidad.setEnabled(true);
         bAEstrella.setEnabled(true);
-        bAmplitud.setEnabled(true);
+        bAmplitud.setEnabled(true);*/
+        
+        synchronized(hiloAlgoritmo)
+        {
+        hiloAlgoritmo.notify();
+        
+        }
+        
     }//GEN-LAST:event_bAvaraActionPerformed
     private void cargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarArchivoActionPerformed
         // TODO add your handling code here:
@@ -714,7 +915,10 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private void bPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlayActionPerformed
         synchronized (animacionRobot) {
             bPlay.setEnabled(false);
+                 
             animacionRobot.notify();
+            
+        
         }
     }//GEN-LAST:event_bPlayActionPerformed
 
@@ -792,6 +996,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
     private javax.swing.JButton bPlay;
     private javax.swing.JButton bProfundidad;
     private javax.swing.JButton bStop;
+    private javax.swing.JProgressBar barraAlgoritmo;
     private javax.swing.JPanel busquedas;
     private javax.swing.JButton cargarArchivo;
     private javax.swing.JPanel controladores;
