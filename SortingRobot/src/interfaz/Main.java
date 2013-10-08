@@ -555,7 +555,7 @@ public class Main extends javax.swing.JFrame implements IdObjetos {
             }
         });
 
-        bAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Ayuda.png"))); // NOI18N
+        bAyuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Help.png"))); // NOI18N
         bAyuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAyudaActionPerformed(evt);
