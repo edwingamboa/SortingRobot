@@ -40,8 +40,8 @@ public class Heuristica implements IdObjetos{
         if(posicionSitioUno!=null){
             if(posicionObjetoUno != null){
                 heuristicaUno += heuristicaDePosUnoAPosDos(posicionRobot, posicionObjetoUno);
-                heuristicaUno += heuristicaDePosUnoAPosDos(posicionObjetoUno, posicionSitioUno) 
-                    + matriz.getPesoObjetoUno();
+                heuristicaUno += (matriz.getPesoObjetoUno() *
+                        heuristicaDePosUnoAPosDos(posicionObjetoUno, posicionSitioUno)); 
             }
             else
                 heuristicaUno += heuristicaDePosUnoAPosDos(posicionRobot, posicionSitioUno) 
@@ -55,8 +55,8 @@ public class Heuristica implements IdObjetos{
         if(posicionSitioDos!=null){
             if(posicionObjetoDos != null){
                 heuristicaDos += heuristicaDePosUnoAPosDos(posicionRobot, posicionObjetoDos); 
-                heuristicaDos += heuristicaDePosUnoAPosDos(posicionObjetoDos, posicionSitioDos) 
-                        + matriz.getPesoObjetoDos();
+                heuristicaDos +=(matriz.getPesoObjetoDos()*
+                        heuristicaDePosUnoAPosDos(posicionObjetoDos, posicionSitioDos));
             }
             else
                 heuristicaDos += heuristicaDePosUnoAPosDos(posicionRobot, posicionSitioDos) + matriz.getPesoObjetoDos();
